@@ -1,6 +1,4 @@
 <?php
-// FILEPATH: /C:/xampp/htdocs/YourPetV2/404.php
-
 http_response_code(404);
 ?>
 
@@ -12,5 +10,8 @@ http_response_code(404);
 <body>
     <h1>404 Not Found</h1>
     <p>The page you are looking for could not be found.</p>
+
+    <a href="/" class="">Go to Home Page</a>
+
 </body>
 </html>
