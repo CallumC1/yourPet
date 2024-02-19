@@ -3,8 +3,9 @@
 
 // Helpers
 
-// Function to echo a string safely
-// Should be moveed to a helper file
+/* Function to echo a string safely
+Should be moved to a helper file ]
+*/
 function safeEcho($string) {
     echo(htmlspecialchars($string));
 }
@@ -17,24 +18,21 @@ require_once __DIR__ . '../../router.php';
 
 $router = new Router();
 
-$router->addRoute("/", function() {
-    // echo('Home Page');
-    require_once '../app/Views/home.php';
-});
-
-
-$router->addRoute("/about", function() {
-    // echo('About Page');
-    require_once '../app/Views/about.php';
-});
-
-
-$method = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];
+$method = $_SERVER['REQUEST_METHOD'];
 
-$router->handleRequest($uri);
+
+// REQUEST METHOD, ROUTE, CONTROLLER
+$router->addRoute("GET", "/", "HomeController@index");
+
+$router->addRoute("GET", "/about", "AboutController@index");
+
+$router->addRoute("GET", "/form", "FormController@index");
+
+$router->addRoute("POST", "/formSubmit", "FormController@submit");
 
 
+$router->handleRequest($uri, $method);
 
 
 ?>
