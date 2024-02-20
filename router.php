@@ -29,6 +29,14 @@ class Router {
         $URIParams = $seperatedURI[1] ?? null; 
         $URI = $seperatedURI[0];
 
+        
+        // regex {}
+        $pattern = "/\:([a-zA-Z0-9_]+)/ ";
+        var_dump(urldecode($URI));
+        preg_match_all($pattern, urldecode($URI), $matches);
+        var_dump($matches);
+
+
 
         // Check if the requested URI exists in routes array
         if (array_key_exists($URI, $this->routes)) {
@@ -40,6 +48,8 @@ class Router {
                 echo "Method not allowed" . "<br>" . "Allowed methods: " . $this->routes[$URI]["requestMethod"];
                 exit();
             }
+
+
 
             // Get the controller from the routes array
             $controller = $this->routes[$URI]["controller"];
@@ -57,9 +67,17 @@ class Router {
                 exit("Class does not exist: \"" .  $controllerName . "\" ");
             }
 
+
+
             // Check if the method exists in the class, execute method.
             if (method_exists($controllerName, $methodName)){
-                $controllerName->$methodName();
+
+                if (isset($params)) {
+                    call_user_func_array(array($controllerName, $methodName), array($params));
+                } else {
+                    $controllerName->$methodName();
+                }
+
             } else {
                 exit("Method does not exist: \"" .  $methodName . "\" ");
             }
