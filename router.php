@@ -1,17 +1,15 @@
 <?php
 
-// Controller Imports
-// I need to import the controllers so that I can call them in the router
-// There will be a better way to do this in the future.
-require_once (__DIR__ . '/app/Controllers/HomeController.php');
-require_once (__DIR__ . '/app/Controllers/AboutController.php');
-require_once (__DIR__ . '/app/Controllers/FormController.php');
+// Imports that are not autoloaded.
 require_once (__DIR__ . '/app/includes/Database.php');
+
+// autoload classes
+spl_autoload_register(function ($class) {
+    require (__DIR__ . '/app/Controllers/' . $class . '.php');
+});
 
 class Router {
     protected $routes = [];
-
-    // Function to add routes
 
     // REQUEST METHOD, ROUTE, CONTROLLER
 
@@ -25,19 +23,20 @@ class Router {
 
     public function handleRequest($URI, $method) {
 
-        // Seperate the requestedUri by ? to get the route and the parameters
+        // Seperate the requestedURI by ? to get the route and the parameters
         $seperatedURI = explode("?", $URI);
 
         $URIParams = $seperatedURI[1] ?? null; 
         $URI = $seperatedURI[0];
 
 
-        // Check if the requested URL exists in routes array
+        // Check if the requested URI exists in routes array
         if (array_key_exists($URI, $this->routes)) {
 
             if ($this->routes[$URI]["requestMethod"] != $method) {
                 // If the request method does not match the route method, handle 405 error
                 http_response_code(405);
+                // ! Allowed methods should not be displayed in production.
                 echo "Method not allowed" . "<br>" . "Allowed methods: " . $this->routes[$URI]["requestMethod"];
                 exit();
             }

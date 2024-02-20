@@ -5,6 +5,11 @@ require_once __DIR__ . '/../Models/FormModel.php';
 class FormController {
     
     public function index() {
+
+        $formModel = new FormModel();
+        $formData = $formModel->getFormData();
+
+
         require_once __DIR__ . '../../Views/form.php';
     }
 
@@ -21,12 +26,14 @@ class FormController {
         $formModel = new FormModel();
         $result = $formModel->insertFormData($name, $email);
 
-        if ($result) {
+        if ($result != false) {
             echo "Form submitted successfully";
+
+            header("Location: /form");
+
         } else {
             echo "Form submission failed";
         }
-        var_dump($result);
 
         
     }

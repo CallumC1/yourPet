@@ -18,12 +18,13 @@ class Database {
 
     }
 
-    // Execute a query and return the result
-    public function executeQuery($sql, $params ) {
+    // Insert a query into the database
+    public function insertQuery($sql, $params = "" ) {
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bind_param($params[0], ...$params[1]);
-
+        if ($params != "") {
+            $stmt->bind_param($params[0], ...$params[1]);
+        }
         
         try {
             $result = $stmt->execute();
@@ -35,8 +36,30 @@ class Database {
             $stmt->close();
             return false;
         }        
-        
 
+    }
+
+    // Execute a query and return the result
+    public function executeQuery($sql, $params = "") {
+
+        $stmt = $this->conn->prepare($sql);
+
+
+        if ($params != "") {
+            $stmt->bind_param($params[0], ...$params[1]);
+        } 
+        
+        try {
+            $result = $stmt->execute();
+            $result = $stmt->get_result();
+            $stmt->close();
+            return $result;
+
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+            $stmt->close();
+            return false;
+        }       
     }
 
 }

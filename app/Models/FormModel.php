@@ -11,9 +11,24 @@ class FormModel {
         $sql = "INSERT INTO results (name, email) VALUES (?, ?)";
         $params = ["ss", [$name, $email]];
 
-        $result =  $this->db->executeQuery($sql, $params);
+        $result =  $this->db->insertQuery($sql, $params);
 
         return $result;
         
+    }
+    
+    public function getFormData() {
+        $sql = "SELECT * FROM results";
+
+        $result =  $this->db->executeQuery($sql);
+        
+        if ($result) {
+            $result = $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $result = false;
+        }
+
+
+        return $result;
     }
 }

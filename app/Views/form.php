@@ -9,3 +9,11 @@
     <br>
     <input type="submit" value="Submit">
 </form>
+
+
+<?php
+
+    foreach ($formData as $data) {
+        echo $data['name'] . " " . $data['email'] . "<br>";
+    }
+?>
