@@ -13,6 +13,7 @@ class FormController {
         require_once __DIR__ . '../../Views/form.php';
     }
 
+    // Route: /submitForm
     public function submit() {
 
         if (!$_SERVER['REQUEST_METHOD'] == "POST") {

@@ -31,6 +31,8 @@ $router->addRoute("GET", "/form", "FormController@index");
 
 $router->addRoute("POST", "/formSubmit", "FormController@submit");
 
+$router->addRoute("GET", "/register", "RegisterController");
+
 
 $router->handleRequest($uri, $method);
 
