@@ -18,6 +18,7 @@ class Router {
             "requestMethod" => $requestMethod,
             "controller" => $controller
         ];
+
     }
 
 
@@ -29,14 +30,29 @@ class Router {
         $URIParams = $seperatedURI[1] ?? null; 
         $URI = $seperatedURI[0];
 
-        
-        // regex {}
-        $pattern = "/\:([a-zA-Z0-9_]+)/ ";
-        var_dump(urldecode($URI));
-        preg_match_all($pattern, urldecode($URI), $matches);
+
+        // Testing grounds
+        echo "URI:";
+        var_dump($URI);
+
+        // Find params by getting any text enclosed in curly braces
+        preg_match_all('/\{([^}]+)\}/ ', $URI, $matches);
+        echo("matches:");
         var_dump($matches);
 
+        $t = preg_match_all('/\{([^}]+)\}/ ', $URI, $matches);
+        echo("t:");
+        var_dump($t);
 
+        echo("PAT:");
+        $pat = preg_replace('/\{([^}]+)\}/ ', '', $URI);
+
+        var_dump($pat);
+
+        echo("ARRAY KEY EXISTS:");
+        var_dump(array_key_exists($URI, $this->routes));
+        
+        exit();
 
         // Check if the requested URI exists in routes array
         if (array_key_exists($URI, $this->routes)) {
