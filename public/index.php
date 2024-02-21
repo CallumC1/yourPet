@@ -42,9 +42,9 @@ $router->addRoute("GET", "/products/all", "ProductsController@getAllProducts");
 $router->addRoute("GET", "/products/type", "ProductsController@getProductsByType");
 
 
-// Route should accept a parameter
-// The parameter should be passed to the controller
-// The router will need to parse the URI to get the parameter by using regex.
+// Route should accept a parameter with the name product_type
+// The parameter should be passed to the controller method
+// The controller method should use the parameter to filter the products
 $router->addRoute("GET", "/products/type/{product_type}", "ProductsController@getProductsByType");
 
 
