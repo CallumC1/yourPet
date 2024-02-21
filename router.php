@@ -24,6 +24,8 @@ class Router {
 
     public function handleRequest($URI, $method) {
 
+        $URI = rtrim($URI, "/");
+
         // Seperate the requestedURI by ? to get the route and the parameters
         $seperatedURI = explode("?", $URI);
 
@@ -32,27 +34,51 @@ class Router {
 
 
         // Testing grounds
+
+
         echo "URI:";
         var_dump($URI);
 
-        // Find params by getting any text enclosed in curly braces
-        preg_match_all('/\{([^}]+)\}/ ', $URI, $matches);
-        echo("matches:");
+
+
+        echo "REGEX:";
+
+
+        $route = "products/type/test/{test}/{tw}";
+
+        preg_match_all("/\{([^\}]*)\}/ ", $route, $matches);
         var_dump($matches);
 
-        $t = preg_match_all('/\{([^}]+)\}/ ', $URI, $matches);
-        echo("t:");
-        var_dump($t);
 
-        echo("PAT:");
-        $pat = preg_replace('/\{([^}]+)\}/ ', '', $URI);
 
-        var_dump($pat);
 
-        echo("ARRAY KEY EXISTS:");
-        var_dump(array_key_exists($URI, $this->routes));
+        echo "MORE REGEX";
+
+        $params = null;
+
+        foreach ($this->routes as $key => $inner) {
+
+            var_dump($key);
+
+            preg_match_all("/\{([^\}]*)\}/ ", $key, $matches);
+
+            if ($matches[0] != null) {
+                var_dump($matches[1]);
+                $params = $matches[1];
+            }
+
+        }
         
+        echo "PARAMS:";
+        var_dump($params);
+
+
+
         exit();
+
+
+        // End of testing grounds
+
 
         // Check if the requested URI exists in routes array
         if (array_key_exists($URI, $this->routes)) {

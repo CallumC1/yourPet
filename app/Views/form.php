@@ -16,4 +16,5 @@
     foreach ($formData as $data) {
         echo $data['name'] . " " . $data['email'] . "<br>";
     }
+    
 ?>
