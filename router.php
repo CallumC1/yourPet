@@ -55,13 +55,19 @@ class Router {
 
             if (preg_match($pattern, $URI, $matches)) {
                 // If route exists, get the parameters from the URI
-                echo("<br><h1 class='text-md'>matched</h1><br>");
                 var_dump($matches);
+
+                $stringLength = strlen($matches[0]);
+                $stringLength -= strlen($matches[1]);
+                echo("String length: " . $stringLength . "<br>");
+
+                $paramName = substr($URI, $stringLength);
+                echo("Param Name: " . $paramName . "<br>");
+
                 break;
-            } else {
-                echo("<br>no match");
-                echo($pattern);
             }
+
+
         }
 
         exit();
