@@ -66,6 +66,10 @@ class Router {
 
         exit();
 
+
+        // End of testing grounds
+
+
         // Check if the requested URI exists in routes array
         if (array_key_exists($URI, $this->routes)) {
 
