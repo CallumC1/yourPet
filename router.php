@@ -14,9 +14,25 @@ class Router {
     // REQUEST METHOD, ROUTE, CONTROLLER
 
     public function addRoute($requestMethod, $route, $controller) {
+
+        // var_dump($route);
+        // check for {param} in route in regex
+
+        if (preg_match('/{[a-zA-Z0-9]+}/ ', $route)) {
+            echo("Route before regex:");
+            var_dump($route);
+
+            // Replace {param} with regex to match any string
+            $route = preg_replace('/{[a-zA-Z0-9]+}/ ', '([a-zA-Z0-9]+)', $route);
+            // $route = "/^" . $route . "$/";
+            echo("Route after regex:");
+            var_dump($route);
+        }
+
+
         $this->routes[$route] = [
             "requestMethod" => $requestMethod,
-            "controller" => $controller
+            "controller" => $controller,
         ];
 
     }
@@ -24,34 +40,30 @@ class Router {
 
     public function handleRequest($URI, $method) {
 
-        // Seperate the requestedURI by ? to get the route and the parameters
         $seperatedURI = explode("?", $URI);
 
         $URIParams = $seperatedURI[1] ?? null; 
         $URI = $seperatedURI[0];
 
 
-        // Testing grounds
-        echo "URI:";
-        var_dump($URI);
 
-        // Find params by getting any text enclosed in curly braces
-        preg_match_all('/\{([^}]+)\}/ ', $URI, $matches);
-        echo("matches:");
-        var_dump($matches);
+        foreach ($this->routes as $route => $data) {
+            
+            // check if route exists in routes array
+            $pattern = "@^" . $route . "$@D";
+            $matches = [];
 
-        $t = preg_match_all('/\{([^}]+)\}/ ', $URI, $matches);
-        echo("t:");
-        var_dump($t);
+            if (preg_match($pattern, $URI, $matches)) {
+                // If route exists, get the parameters from the URI
+                echo("<br><h1 class='text-md'>matched</h1><br>");
+                var_dump($matches);
+                break;
+            } else {
+                echo("<br>no match");
+                echo($pattern);
+            }
+        }
 
-        echo("PAT:");
-        $pat = preg_replace('/\{([^}]+)\}/ ', '', $URI);
-
-        var_dump($pat);
-
-        echo("ARRAY KEY EXISTS:");
-        var_dump(array_key_exists($URI, $this->routes));
-        
         exit();
 
         // Check if the requested URI exists in routes array

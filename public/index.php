@@ -41,7 +41,7 @@ $router->addRoute("GET", "/products/all", "ProductsController@getAllProducts");
 
 $router->addRoute("GET", "/products/type", "ProductsController@getProductsByType");
 
-$router->addRoute("GET", "/products/type/{product_type}", "ProductsController@getProductsByType");
+$router->addRoute("GET", "/products/type/{productType}", "ProductsController@getProductsByType");
 
 
 $router->handleRequest($uri, $method);
