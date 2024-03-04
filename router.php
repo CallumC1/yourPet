@@ -15,16 +15,13 @@ class Router {
 
     public function addRoute($requestMethod, $route, $controller) {
 
-        // var_dump($route);
         // check for {param} in route in regex
-
-        if (preg_match('/{[a-zA-Z0-9]+}/ ', $route)) {
+        if (preg_match('/{[a-zA-Z0-9]+}/', $route)) {
             echo("Route before regex:");
             var_dump($route);
 
             // Replace {param} with regex to match any string
-            $route = preg_replace('/{[a-zA-Z0-9]+}/ ', '([a-zA-Z0-9]+)', $route);
-            // $route = "/^" . $route . "$/";
+            $route = preg_replace('/{[a-zA-Z0-9]+}/', '([a-zA-Z0-9]+)', $route);
             echo("Route after regex:");
             var_dump($route);
         }
@@ -33,6 +30,7 @@ class Router {
         $this->routes[$route] = [
             "requestMethod" => $requestMethod,
             "controller" => $controller,
+            // "params" => [["paramName", "location"]]
         ];
 
     }
@@ -48,24 +46,54 @@ class Router {
 
 
         foreach ($this->routes as $route => $data) {
-            
-            // check if route exists in routes array
+
             $pattern = "@^" . $route . "$@D";
             $matches = [];
 
+            // check if route exists in routes array
+
+            // echo($route . " -URI-> " . $URI . "<br>");
+
+            if ($route == $URI || preg_match($pattern, $URI, $matches)) {
+                echo($route . " --> route matched <br>");
+            } else {
+                echo($route . " --> route not matched <br>");
+            }
+
+            continue;
+
+
+            // Checks if the route contains regex to match parameters
             if (preg_match($pattern, $URI, $matches)) {
-                // If route exists, get the parameters from the URI
+                echo("Matches:");
                 var_dump($matches);
 
-                $stringLength = strlen($matches[0]);
-                $stringLength -= strlen($matches[1]);
-                echo("String length: " . $stringLength . "<br>");
+                // $stringLength = strlen($matches[0]);
+                // $stringLength -= strlen($matches[1]);
+                // echo("String length: " . $stringLength . "<br>");
 
-                $paramName = substr($URI, $stringLength);
-                echo("Param Name: " . $paramName . "<br>");
+                echo("pattern:");
+                var_dump($pattern);
 
-                break;
+            } else {
+                // Get the controller from the routes array
+                $controller = $data["controller"];
+                $controller = explode("@", $controller);
+
+                echo("Controller:");
+                var_dump($controller);
+                
+                $controllerName = $controller[0];
+                $methodName = $controller[1] ?? "index";
+                echo("Method name:");
+                var_dump($methodName);
+
+                // Run the method
+
+                $controllerName->$methodName();
             }
+
+
 
 
         }
