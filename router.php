@@ -50,11 +50,8 @@ class Router {
             $pattern = "@^" . $route . "$@D";
             $matches = [];
 
-            // check if route exists in routes array
-
-            // echo($route . " -URI-> " . $URI . "<br>");
-
-            if ($route == $URI || preg_match($pattern, $URI, $matches)) {
+            // check if route exists in routes array.
+            if (preg_match($pattern, $URI, $matches)) {
                 echo($route . " --> route matched <br>");
             } else {
                 echo($route . " --> route not matched <br>");
@@ -63,7 +60,7 @@ class Router {
             continue;
 
 
-            // Checks if the route contains regex to match parameters
+            // Checks if the route matches the URI
             if (preg_match($pattern, $URI, $matches)) {
                 echo("Matches:");
                 var_dump($matches);
