@@ -4,14 +4,11 @@
 // Helpers
 
 /* Function to echo a string safely
-Should be moved to a helper file ]
+Should be moved to a helper file 
 */
 function safeEcho($string) {
     echo(htmlspecialchars($string));
 }
-
-
-
 
 
 // Routing
@@ -38,7 +35,7 @@ $router->addRoute("POST", "/formSubmit", "FormController@submit");
 
 $router->addRoute("GET", "/register", "RegisterController@index");
 
-$router->addRoute("GET", "/products", "ProductsController");
+$router->addRoute("GET", "/products", "ProductsController@index");
 
 $router->addRoute("GET", "/products/all", "ProductsController@getAllProducts");
 

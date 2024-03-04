@@ -7,9 +7,10 @@
     </a>
 
     <ul class="flex gap-6">
-        <!-- <li><a class="p-5 hover:underline" href="/">Home</a></li> -->
-        <li><a class="p-5 hover:underline" href="/services">Services</a></li>
+        <li><a class="p-5 hover:underline" href="/">Home</a></li>
+        <!-- <li><a class="p-5 hover:underline" href="/services">Services</a></li> -->
+        <li><a class="p-5 hover:underline" href="/products/all">Products</a></li>
         <li><a class="p-5 hover:underline" href="/about">About Us</a></li>
-        <li><a class="p-5 hover:underline" href="/form">My Account</a></li>
+        <li><a class="p-5 hover:underline" href="/register">Register</a></li>
     </ul>
 </div> 
