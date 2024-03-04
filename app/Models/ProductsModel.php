@@ -14,16 +14,21 @@ class ProductsModel {
         
         if ($result) {
             $result = $result->fetch_all(MYSQLI_ASSOC);
-            var_dump($result);
-            exit();
         } else {
             $result = false;
         }
 
-
         return $result;
     }
 
+
+    /**
+     * Get products by type
+     * 
+     * @param string $type
+     * 
+     * @return array|bool
+     */
     public function getProductsByType($type) {
         $sql = "SELECT * FROM products WHERE product_type = ?";
 

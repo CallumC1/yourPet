@@ -25,6 +25,9 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 
 // REQUEST METHOD, ROUTE, CONTROLLER
+// NOTE: If two routes have the same route but one has a parameter, the parameter route should be added last!
+// This is because the routes are checked in the order they are added and the first match is used.
+// If the parameter route is added first, it will match all routes and the second route will never be found.
 $router->addRoute("GET", "/", "HomeController@index");
 
 $router->addRoute("GET", "/about", "AboutController@index");
@@ -41,7 +44,7 @@ $router->addRoute("GET", "/products/all", "ProductsController@getAllProducts");
 
 $router->addRoute("GET", "/products/type", "ProductsController@getProductsByType");
 
-$router->addRoute("GET", "/products/type/{productType}", "ProductsController@getProductsByType");
+$router->addRoute("GET", "/products/{productType}", "ProductsController@getProductsByType");
 
 
 

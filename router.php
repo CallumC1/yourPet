@@ -91,7 +91,6 @@ class Router {
 
             // If the route has parameters, pass them to the method (WIP)
             if (isset($params)) {
-                echo("Params Found!");
                 call_user_func_array(array($controllerName, $methodName), array($params));
             } else {
                 $controllerName->$methodName();

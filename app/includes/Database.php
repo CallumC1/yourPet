@@ -46,6 +46,7 @@ class Database {
 
 
         if ($params != "") {
+            // ... unpacks the array into separate variables
             $stmt->bind_param($params[0], ...$params[1]);
         } 
         
