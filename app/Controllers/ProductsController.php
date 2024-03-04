@@ -19,6 +19,9 @@ class ProductsController {
     }
 
     public function getProductsByType($type = "Bedding") {
+
+        echo("Type: " . $type);
+
         // Get all products from the database
         $productsModel = new ProductsModel();
         $products = $productsModel->getProductsByType($type);
