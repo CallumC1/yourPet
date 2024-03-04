@@ -17,20 +17,16 @@ class Router {
 
         // check for {param} in route in regex
         if (preg_match('/{[a-zA-Z0-9]+}/', $route)) {
-            echo("Route before regex:");
-            var_dump($route);
 
             // Replace {param} with regex to match any string
             $route = preg_replace('/{[a-zA-Z0-9]+}/', '([a-zA-Z0-9]+)', $route);
-            echo("Route after regex:");
-            var_dump($route);
+
         }
 
 
         $this->routes[$route] = [
             "requestMethod" => $requestMethod,
             "controller" => $controller,
-            // "params" => [["paramName", "location"]]
         ];
 
     }
@@ -39,11 +35,8 @@ class Router {
     public function handleRequest($URI, $method) {
 
         $seperatedURI = explode("?", $URI);
-
         $URIParams = $seperatedURI[1] ?? null; 
         $URI = $seperatedURI[0];
-
-
 
         foreach ($this->routes as $route => $data) {
 
@@ -55,7 +48,6 @@ class Router {
 
             // check if route exists in routes array.
             if (preg_match($pattern, $URI, $matches)) {
-                echo($route . " --> route matched <br>");
 
                 // Get the controller from the routes array
                 $controller = $data["controller"];
@@ -67,30 +59,29 @@ class Router {
                 $controllerName = $controller[0];
                 $methodName = $controller[1] ?? "index";
 
-
                 // Check if the controller exists
-                if (class_exists($controllerName)){
-                    $controllerName = new $controllerName();
-                } else {
+                if (!class_exists($controllerName)) {
                     exit("Class does not exist: \"" .  $controllerName . "\" ");
                 }
 
-                // Check if the method exists in the class, execute method.
-                if (method_exists($controllerName, $methodName)){
-
-                    if (isset($params)) {
-                        call_user_func_array(array($controllerName, $methodName), array($params));
-                    } else {
-                        $controllerName->$methodName();
-                    }
-
-                } else {
+                // Check if the method exists
+                if (!method_exists($controllerName, $methodName)) {
                     exit("Method does not exist: \"" .  $methodName . "\" ");
                 }
 
+                // Initialize the controller 
+                $controllerName = new $controllerName();
 
-            } else {
-                echo($route . " --> route not matched <br>");
+
+                // If the route has parameters, pass them to the method (WIP)
+                if (isset($params)) {
+                    call_user_func_array(array($controllerName, $methodName), array($params));
+                } else {
+                    $controllerName->$methodName();
+                }
+
+
+
             }
 
 
