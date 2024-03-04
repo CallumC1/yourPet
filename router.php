@@ -50,47 +50,48 @@ class Router {
             $pattern = "@^" . $route . "$@D";
             $matches = [];
 
+            // CHANGE !!
+            // IF NOT PREG_MATCH, CONTINUE !!
+
             // check if route exists in routes array.
             if (preg_match($pattern, $URI, $matches)) {
                 echo($route . " --> route matched <br>");
-            } else {
-                echo($route . " --> route not matched <br>");
-            }
 
-            continue;
-
-
-            // Checks if the route matches the URI
-            if (preg_match($pattern, $URI, $matches)) {
-                echo("Matches:");
-                var_dump($matches);
-
-                // $stringLength = strlen($matches[0]);
-                // $stringLength -= strlen($matches[1]);
-                // echo("String length: " . $stringLength . "<br>");
-
-                echo("pattern:");
-                var_dump($pattern);
-
-            } else {
                 // Get the controller from the routes array
                 $controller = $data["controller"];
                 $controller = explode("@", $controller);
 
                 echo("Controller:");
                 var_dump($controller);
-                
+
                 $controllerName = $controller[0];
                 $methodName = $controller[1] ?? "index";
-                echo("Method name:");
-                var_dump($methodName);
 
-                // Run the method
 
-                $controllerName->$methodName();
+                // Check if the controller exists
+                if (class_exists($controllerName)){
+                    $controllerName = new $controllerName();
+                } else {
+                    exit("Class does not exist: \"" .  $controllerName . "\" ");
+                }
+
+                // Check if the method exists in the class, execute method.
+                if (method_exists($controllerName, $methodName)){
+
+                    if (isset($params)) {
+                        call_user_func_array(array($controllerName, $methodName), array($params));
+                    } else {
+                        $controllerName->$methodName();
+                    }
+
+                } else {
+                    exit("Method does not exist: \"" .  $methodName . "\" ");
+                }
+
+
+            } else {
+                echo($route . " --> route not matched <br>");
             }
-
-
 
 
         }
@@ -98,7 +99,6 @@ class Router {
         exit();
 
 
-        // End of testing grounds
 
 
         // Check if the requested URI exists in routes array
@@ -114,36 +114,9 @@ class Router {
 
 
 
-            // Get the controller from the routes array
-            $controller = $this->routes[$URI]["controller"];
-            $controller = explode("@", $controller);
-            
-            $controllerName = $controller[0];
-            $methodName = $controller[1] ?? "index";
 
 
 
-            // Check if the controller exists
-            if (class_exists($controllerName)){
-                $controllerName = new $controllerName();
-            } else {
-                exit("Class does not exist: \"" .  $controllerName . "\" ");
-            }
-
-
-
-            // Check if the method exists in the class, execute method.
-            if (method_exists($controllerName, $methodName)){
-
-                if (isset($params)) {
-                    call_user_func_array(array($controllerName, $methodName), array($params));
-                } else {
-                    $controllerName->$methodName();
-                }
-
-            } else {
-                exit("Method does not exist: \"" .  $methodName . "\" ");
-            }
 
 
         } else {
