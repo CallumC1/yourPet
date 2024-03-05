@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.homepage-card {
+    @apply flex flex-col items-center w-96 px-2 py-4 bg-white rounded-md shadow-md border-2 border-green-500 transition-all;
+}

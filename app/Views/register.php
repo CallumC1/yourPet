@@ -1,33 +1,43 @@
 <!-- A page title can be set here or leave blank for default. -->
-<?php $pageTitle = "Register for an account";
+<?php 
+$pageTitle = "Register for an account";
+$pageBackground = "bg-slate-100"; 
+$bodyClasses = "h-screen overflow-hidden";
 require_once( __DIR__ . "../components/header.php");
 require_once( __DIR__ . "../components/navbar.php");
 
 ?>
 
-Register Page.
 
-<div>
-    <form action="/registerSubmit" method="POST" class="flex flex-col gap-2 w-96 p-5">
+<div class="flex h-screen -mt-16">
+    <div class="grid grid-cols-2 mx-auto my-auto gap-5 p-10 justify-center max-w-screen-lg h-96 bg-white rounded-md">
 
-        <span class="flex flex-col">
-            <label for="full_name">Full Name</label>
-            <input type="text" name="full_name" placeholder="John Doe" class="border-2 rounded-sm border-black pl-1">
-        </span>
+        <div class="padding-2 rounded-sm overflow-hidden">
+            <img src="/assets/images/dog-and-woman.jpg" alt="" class="w-full h-full object-cover">
+        </div>
 
+        <div class="flex flex-col justify-center w-full h-full" >
+            <h2 class="text-2xl font-semibold mb-8">Register</h2>
+    
+            <form action="/registerSubmit" method="POST" class="flex flex-col gap-2 w-96">
+     
+                <span class="flex flex-col mt-2">
+                    <label for="email">Email address</label>
+                    <input type="email" name="email" placeholder="Your email address" class="py-1 pl-2 pr-1 border rounded-sm  border-gray-200 focus:ring-1 focus:ring-green-600">
+                </span>
         
-        <span class="flex flex-col">
-            <label for="email">Email address</label>
-            <input type="email" name="email" placeholder="your@email.com" class="border-2 rounded-sm border-black pl-1">
-        </span>
+                <span class="flex flex-col mt-2">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" placeholder="Enter a password" class="py-1 pl-2 pr-1 rounded-sm  border border-gray-200 ">
+                </span>
+        
+                <input type="submit" value="Register" class="cursor-pointer bg-green-500 hover:bg-green-600 mt-4 p-3 rounded-sm">
+            </form>
+        </div>
 
-        <span class="flex flex-col">
-            <label for="password">Password</label>
-            <input type="password" name="password" placeholder="Enter password" class="border-2 rounded-sm border-black pl-1">
-        </span>
+ 
 
-        <input type="submit" value="Register" class="bg-green-600">
-    </form>
+    </div>
 </div>
 
 <?php 
