@@ -1,6 +1,6 @@
 <!-- A page title can be set here or leave blank for default. -->
 <?php 
-$pageTitle = "Register | YourPet";
+$pageTitle = "Login | YourPet";
 $pageBackground = "bg-white"; 
 $bodyClasses = "min-h-screen h-full";
 require_once( __DIR__ . "../components/header.php");
@@ -29,16 +29,11 @@ require_once( __DIR__ . "../components/header.php");
                 <img src="/assets/icons/arrow-left-circle.svg" alt="" class="w-5 h-5">
                 <a href="/" class="hover:underline underline-offset-2 text-blue-500 font-semibold">Go back</a>
             </span>
-            <h2 class="text-2xl mb-4">Register your account</h2>
+            <h2 class="text-2xl mb-4">Login to your account</h2>
 
     
             <!-- FORM -->
-            <form action="/registerSubmit" method="POST" class="flex flex-col gap-6 w-full lg:w-96">
-
-                <span class="flex flex-col ">
-                    <label for="name" class="mb-1.5 ml-0.5">Name</label>
-                    <input type="name" name="name" placeholder="Your name" class="py-2 pl-3 pr-1 border rounded-md border-gray-200">
-                </span>
+            <form action="/loginSubmit" method="POST" class="flex flex-col gap-6 w-full lg:w-96">
 
                 <span class="flex flex-col ">
                     <label for="email" class="mb-1.5 ml-0.5">Email address</label>
@@ -49,19 +44,14 @@ require_once( __DIR__ . "../components/header.php");
                     <label for="password" class="mb-1.5 ml-0.5">Password</label>
                     <input type="password" name="password" placeholder="Enter a password" class="py-2 pl-3 pr-1 rounded-md border border-gray-200 ">
                 </span>
-
-                <span class="flex items-center gap-3">
-                    <input type="checkbox" name="terms" id="terms" class="h-5 w-5" required>
-                    <label for="terms" class="text-sm">I agree to YourPet's  <a href="/terms" class="text-blue-600 underline">Terms of Serivce & Privacy Policy</a></label>
-                </span>
         
-                <input type="submit" value="Create Account" class="mt-8 p-4 font-semibold bg-emerald-500 hover:bg-emerald-600 rounded-md cursor-pointer transition-all duration-300">
+                <input type="submit" value="Login" class="mt-8 p-4 font-semibold bg-emerald-500 hover:bg-emerald-600 rounded-md cursor-pointer transition-all duration-300">
             </form>
             <!-- END FORM -->
 
             <div class="flex mt-3 gap-2 text-sm">
-                <p>Already registered?</p>
-                <a href="/login" class="text-blue-600 underline">Login here</a>
+                <p>Dont have an account?</p>
+                <a href="/register" class="text-blue-600 underline">Register here</a>
             </div>
 
             </div>

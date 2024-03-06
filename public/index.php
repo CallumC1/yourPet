@@ -33,18 +33,22 @@ $router->addRoute("GET", "/form", "FormController@index");
 
 $router->addRoute("POST", "/formSubmit", "FormController@submit");
 
+// Registration Routes
 $router->addRoute("GET", "/register", "RegisterController@index");
+$router->addRoute("POST", "/registerSubmit", "AccountController@submitRegistration");
+$router->addRoute("POST", "/loginSubmit", "AccountController@submitLogin");
 
+// Login Routes
+$router->addRoute("GET", "/login", "LoginController@index");
+
+// Products Routes {} is a parameter
 $router->addRoute("GET", "/products", "ProductsController@index");
-
 $router->addRoute("GET", "/products/all", "ProductsController@getAllProducts");
-
 $router->addRoute("GET", "/products/type", "ProductsController@getProductsByType");
-
 $router->addRoute("GET", "/products/{productType}", "ProductsController@getProductsByType");
 
 
-
+// Handles the request
 $router->handleRequest($uri, $method);
 
 

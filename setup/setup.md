@@ -39,3 +39,15 @@ windows host config
    </Directory>
    
 </VirtualHost>
+
+
+
+<!-- Database Stuff -->
+
+CREATE TABLE users (
+    user_id int PRIMARY KEY AUTO_INCREMENT,
+    name varchar(50) NOT NULL,
+    email varchar(150) NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    user_roles VARCHAR(50) DEFAULT 'user' NOT NULL
+);
