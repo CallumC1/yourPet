@@ -1,7 +1,4 @@
 <?php
-// Session start
-session_start();
-
 // Get page title, if not set set to "Your Pet"
 $title = isset($pageTitle) ? $pageTitle : "Your Pet";
 $background = isset($pageBackground) ? $pageBackground : "bg-slate-100";
