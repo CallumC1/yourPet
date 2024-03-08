@@ -9,9 +9,17 @@ class AccountController {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
+        $model = new AccountModel();
+
+        // Check if the user already exists
+        if ($model->checkUserExists($email)) {
+            $_SESSION['error'] = "User already exists";
+            header("Location: /register");
+            exit();
+        }
+
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
         
-        $model = new AccountModel();
         $model->insertRegistrationData($name, $email, $password_hash);
     }
 
