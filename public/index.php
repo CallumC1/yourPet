@@ -1,4 +1,7 @@
 <?php
+// Start the session
+session_start();
+
 // Entry point for the application and all its requests
 
 // Helpers
