@@ -10,6 +10,13 @@ spl_autoload_register(function ($class) {
 
 class Router {
     protected $routes = [];
+    protected $middleware = [];
+
+    // Add middleware to a route
+    public function addMiddleware($route, $middleware) {
+        $this->middleware[$route] = $middleware;
+    }
+
 
     // REQUEST METHOD, ROUTE, CONTROLLER
 
@@ -33,10 +40,13 @@ class Router {
 
 
     public function handleRequest($URI, $method) {
+        
 
         $seperatedURI = explode("?", $URI);
         $URIParams = $seperatedURI[1] ?? null; 
         $URI = $seperatedURI[0];
+
+        $URI = rtrim($URI, "/");
 
         $routeFound = false;
 
@@ -45,14 +55,23 @@ class Router {
             $pattern = "@^" . $route . "$@D";
             $matches = [];
 
-            // CHANGE !!
-            // IF NOT PREG_MATCH, CONTINUE !!
-
             // check if route exists in routes array.
             if (!preg_match($pattern, $URI, $matches)) {
                 continue;
             }
             $routeFound = true;
+
+
+            // Check if the route has middleware
+            if (isset($this->middleware[$route])) {
+                $middleware = $this->middleware[$route];
+                $middleware();
+        
+                echo("Middleware: " . $middleware); 
+                exit();
+            };
+        
+
 
             // Get the parameter from preg_match
             $params = $matches[1] ?? null;

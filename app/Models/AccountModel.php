@@ -31,14 +31,7 @@ class AccountModel {
 
         $result =  $this->db->insertQuery($sql, $params);
 
-        if ($result != false) {
-            echo "Form submitted successfully";
-
-            header("Location: /login");
-
-        } else {
-            echo "Form submission failed";
-        }
+        return $result;
     }
 
 

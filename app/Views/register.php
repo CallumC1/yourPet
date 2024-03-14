@@ -43,7 +43,7 @@ require_once( __DIR__ . "../components/header.php");
                 <span class="flex flex-col ">
                     <label for="email" class="mb-1.5 ml-0.5">Email address</label>
                     <input type="email" name="email" placeholder="Your email address" class="py-2 pl-3 pr-1 border rounded-md border-gray-200">
-                    <?= $_SESSION["error"]; ?>
+                    <?= isset($_SESSION["error"]) ? $_SESSION["error"] : "" ; ?>
                 </span>
         
                 <span class="flex flex-col ">
