@@ -66,8 +66,7 @@ class Router {
                 continue;
             }
             $routeFound = true;
-
-
+            
 
             // Middleware Logic
             // Check if the route has middleware
@@ -80,11 +79,6 @@ class Router {
         
                 exit();
             };
-        
-
-
-            // Get the parameter from preg_match
-            $params = $matches[1] ?? null;
 
             // If the request method does not match the route method, handle 405 error
             if ($data["requestMethod"] != $method) {
@@ -94,29 +88,28 @@ class Router {
                 exit();
             }
 
-            // Get the controller from the routes array
-            $controller = $data["controller"];
-            $controller = explode("@", $controller);
+
+
+
+            // Get controller & Split the method
+            $controller = explode("@", $data["controller"]);
 
             $controllerName = $controller[0];
             $methodName = $controller[1] ?? "index";
 
 
-
-            // Check if the controller exists
-            if (!class_exists($controllerName)) {
-                exit("Class does not exist: \"" .  $controllerName . "\" ");
-            }
-
-            // Check if the method exists
-            if (!method_exists($controllerName, $methodName)) {
-                exit("Method does not exist: \"" .  $methodName . "\" ");
+            // Check if the controller and method exists
+            if (!class_exists($controllerName) || !method_exists($controllerName, $methodName)) {
+                exit("Class or Method does not exist: \"" .  $controllerName . "\" or \"" . $methodName . "\" ");
             }
 
 
-            // Initialize the controller 
+            // Initialize a new controller 
             $controllerName = new $controllerName();
 
+            
+            // Get the parameter from preg_match
+            $params = $matches[1] ?? null;
 
             // If the route has parameters, pass them to the method (WIP)
             if (isset($params)) {
