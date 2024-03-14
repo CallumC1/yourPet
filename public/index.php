@@ -53,9 +53,7 @@ $router->addRoute("GET", "/products/{productType}", "ProductsController@getProdu
 
 
 $router->addRoute("GET", "/dashboard", "DashboardController@index");
-$router->addMiddleware("/dashboard", function() {
-    echo("Middleware for dashboard");
-});
+$router->addMiddleware("/dashboard", "userAuth");
 
 
 

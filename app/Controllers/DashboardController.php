@@ -4,6 +4,6 @@ class DashboardController {
     
     public function index() {
 
-        echo("Dashboard");
+        require __DIR__ . '../../Views/dashboard.php';
     }
 }

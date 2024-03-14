@@ -3,22 +3,24 @@
 // Imports that are not autoloaded.
 require_once (__DIR__ . '/app/includes/Database.php');
 
-// autoload classes
+// Autoloads classes and middleware
 spl_autoload_register(function ($class) {
-    require (__DIR__ . '/app/Controllers/' . $class . '.php');
+    $controllerPath =  __DIR__ . '/app/Controllers/' . $class . '.php';
+    $middlewarePath = __DIR__ . '/app/Middleware/' . $class . '.php';
+
+    if (file_exists($controllerPath)) {
+        require_once $controllerPath;
+    } else if (file_exists($middlewarePath)) {
+        require_once $middlewarePath;
+    }
 });
 
 class Router {
     protected $routes = [];
     protected $middleware = [];
 
-    // Add middleware to a route
-    public function addMiddleware($route, $middleware) {
-        $this->middleware[$route] = $middleware;
-    }
-
-
     // REQUEST METHOD, ROUTE, CONTROLLER
+    // Middleware is optional
 
     public function addRoute($requestMethod, $route, $controller) {
 
@@ -27,9 +29,7 @@ class Router {
 
             // Replace {param} with regex to match any string
             $route = preg_replace('/{[a-zA-Z0-9]+}/', '([a-zA-Z0-9]+)', $route);
-
         }
-
 
         $this->routes[$route] = [
             "requestMethod" => $requestMethod,
@@ -39,13 +39,19 @@ class Router {
     }
 
 
+    // Add middleware to a route
+    public function addMiddleware($route, $middleware) {
+        $this->middleware[$route] = $middleware;
+        // echo "Middleware added to route: " . $route;
+    }
+
+
     public function handleRequest($URI, $method) {
         
 
         $seperatedURI = explode("?", $URI);
         $URIParams = $seperatedURI[1] ?? null; 
         $URI = $seperatedURI[0];
-
         $URI = rtrim($URI, "/");
 
         $routeFound = false;
@@ -62,12 +68,16 @@ class Router {
             $routeFound = true;
 
 
+
+            // Middleware Logic
             // Check if the route has middleware
             if (isset($this->middleware[$route])) {
-                $middleware = $this->middleware[$route];
-                $middleware();
+                $middlewareName = $this->middleware[$route];
+
+                // Initialize & execute the middleware.
+                $middleware = new $middlewareName();
+                $middleware->handle();
         
-                echo("Middleware: " . $middleware); 
                 exit();
             };
         
