@@ -27,26 +27,31 @@ require_once( __DIR__ . "../components/navbar.php");
 <div class="flex flex-col w-full px-4 ">
 
     
-        <div class="flex flex-wrap justify-center items-center mx-auto gap-10 mt-8">
+    <div class="flex flex-wrap justify-center items-center mx-auto gap-10 mt-8">
 
-            <div class="homepage-card">
+        <div class="homepage-card">
+            <div class="flex justify-center items-center bg-slate-100 rounded-full size-11">
                 <img src="/assets/icons/HealthCross.svg" alt="" class="w-10 h-10">
-                <h2 class="text-2xl font-semibold mt-4">Medical Services</h2>
-                <p class="text-lg text-center mt-4">We provide medical services for pets. We have a team of experienced vets and nurses who are dedicated to providing the best care for your pets.</p>
             </div>
+            <h2 class="text-2xl font-semibold mt-4">Medical Services</h2>
+            <p class="text-lg text-center mt-4">We provide medical services for pets. We have a team of experienced vets and nurses who are dedicated to providing the best care for your pets.</p>
+        </div>
 
-            <div class="homepage-card">
+        <div class="homepage-card">
+            <div class="flex justify-center items-center bg-slate-100 rounded-full size-11">
                 <img src="/assets/icons/HealthCross.svg" alt="" class="w-10 h-10">
-                <h2 class="text-2xl font-semibold mt-4">Pet Food</h2>
-                <p class="text-lg text-center mt-4">We sell a variety of pet food. We have food for all types of pets. We also have food for pets with special dietary needs.</p>
             </div>
+            <h2 class="text-2xl font-semibold mt-4">Pet Food</h2>
+            <p class="text-lg text-center mt-4">We sell a variety of pet food. We have food for all types of pets. We also have food for pets with special dietary needs.</p>
+        </div>
 
-            <div class="homepage-card">
+        <div class="homepage-card">
+            <div class="flex justify-center items-center bg-slate-100 rounded-full size-11">
                 <img src="/assets/icons/HealthCross.svg" alt="" class="w-10 h-10">
-                <h2 class="text-2xl font-semibold mt-4">Medicine</h2>
-                <p class="text-lg text-center mt-4">We sell a variety of pet medicine. We have medicine for all types of pets. We also have medicine for pets with special medical needs.</p>
             </div>
-
+            <h2 class="text-2xl font-semibold mt-4">Medicine</h2>
+            <p class="text-lg text-center mt-4">We sell a variety of pet medicine. We have medicine for all types of pets. We also have medicine for pets with special medical needs.</p>
+        </div>
 
     </div>
     
