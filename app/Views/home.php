@@ -24,10 +24,9 @@ require_once( __DIR__ . "../components/navbar.php");
     
 </div>
 
-<div class="flex flex-col w-full px-4 ">
-
+<div class="flex flex-col w-full px-4 max-w-screen-2xl mx-auto">
     
-    <div class="flex flex-wrap justify-center items-center mx-auto gap-10 mt-8">
+    <div class="flex flex-wrap justify-center gap-10 mx-auto  mt-8">
 
         <div class="homepage-card">
             <div class="flex justify-center items-center bg-slate-100 rounded-full size-11">
@@ -56,12 +55,13 @@ require_once( __DIR__ . "../components/navbar.php");
     </div>
     
     
+    <div class="mt-20 ">
+        <h1 class="font-semibold text-4xl">Pet care</h1>
+        <p>Get top 6 product cards to display here</p>
+    </div>
+
 </div>
 
-<div class="mt-20  max-w-screen-2xl">
-    <h1 class="font-semibold text-4xl">Pet care</h1>
-    <p>Get top 6 product cards to display here</p>
-</div>
 
 <?php 
 require_once( __DIR__ . "../components/footer.php");

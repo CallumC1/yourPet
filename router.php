@@ -62,9 +62,10 @@ class Router {
             $matches = [];
 
             // check if route exists in routes array.
-            if (!preg_match($pattern, $URI, $matches)) {
+            if (!preg_match($pattern, $URI, $matches)) {                
                 continue;
             }
+
             $routeFound = true;
             
 
@@ -77,7 +78,6 @@ class Router {
                 $middleware = new $middlewareName();
                 $middleware->handle();
         
-                exit();
             };
 
             // If the request method does not match the route method, handle 405 error
@@ -93,7 +93,6 @@ class Router {
 
             // Get controller & Split the method
             $controller = explode("@", $data["controller"]);
-
             $controllerName = $controller[0];
             $methodName = $controller[1] ?? "index";
 
@@ -118,6 +117,8 @@ class Router {
                 $controllerName->$methodName();
             }
 
+            // Exit the loop if route is founds
+            exit();
 
         }
 
