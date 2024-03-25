@@ -9,7 +9,7 @@ require_once( __DIR__ . "../components/navbar.php");
 Home Page. <br>
 
 <?php
-safeEcho("<script>alert('Hello, World!');</script>");
+out("<script>alert('Hello, World!');</script>");
 ?>
 
 
