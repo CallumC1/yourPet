@@ -9,7 +9,7 @@ session_start();
 /* Function to echo a string safely
 Should be moved to a helper file 
 */
-function safeEcho($string) {
+function out($string) {
     echo(htmlspecialchars($string));
 }
 

@@ -48,7 +48,9 @@ class AccountController {
 
         // Check if the user already exists
         if ($model->checkUserExists($email)) {
-            $_SESSION['error'] = "User already exists";
+            // Error = Type, Message 
+            $_SESSION["error"] = ["email", "User with that email already exists"];
+            // $_SESSION['error'] = "User with that email already exists";
             header("Location: /register");
             exit();
         }
