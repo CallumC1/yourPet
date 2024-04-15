@@ -6,21 +6,30 @@ class AccountController {
 
     public function auth_user($email, $password) {
 
+        // Get the users hashed password from the database
         $model = new AccountModel();
-        $result = $model->checkLogin($email, $password);
+        $user = $model->checkLogin($email);
 
-        if (password_verify($password, $result['password_hash'])) {
+        // If the user doesnt exist, return false
+        if (!$user) {
+            $_SESSION["error"] = ["no_user", "User with that email doesnt exist"];
+            return False;
+        }
+
+        if (password_verify($password, $user['password_hash'])) {
 
             $_SESSION["user_data"] = [
-                "id" => $result['user_id'],
-                "name" => $result['name'],
-                "email" => $result['email']
+                "id" => $user['user_id'],
+                "name" => $user['name'],
+                "email" => $user['email']
             ];
 
-            header("Location: /dashboard");
+            return True;
 
         } else {
-            echo "Login failed";
+            // If the password is incorrect, return false
+            $_SESSION["error"] = ["incorrect_details", "Email or Password not correct"];
+            return False;
         }
 
     }
@@ -51,20 +60,26 @@ class AccountController {
         if ($model->checkUserExists($email)) {
             // Error = Type, Message 
             $_SESSION["error"] = ["email", "User with that email already exists"];
-            // $_SESSION['error'] = "User with that email already exists";
             header("Location: /register");
             exit();
         }
 
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
-        
         $result = $model->insertRegistrationData($name, $email, $password_hash);
 
-        if ($result != false) {
-            $this->auth_user($email, $password);
-        } else {
+        if (!$result) {
             echo "Registeration failed, please contact support.";
+            exit();
         }
+
+        if (!$this->auth_user($email, $password) ) {
+            echo ("Automatic Login failed, please contact support.");
+            exit();
+        }
+
+        // Redirect to dashboard if successful
+        header("Location: /dashboard");
+        exit();
 
     }
 
@@ -79,7 +94,15 @@ class AccountController {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        $this->auth_user($email, $password);
+        if (!$this->auth_user($email, $password)) {
+            // Error is set in the auth_user function
+            header("Location: /login");
+            exit();
+        }
+
+        // Redirect to dashboard if successful
+        header("Location: /dashboard");
+        exit();
 
     }
     

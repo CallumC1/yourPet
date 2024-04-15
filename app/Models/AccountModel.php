@@ -35,7 +35,7 @@ class AccountModel {
     }
 
 
-    public function checkLogin($email, $password) {
+    public function checkLogin($email) {
         $sql = "SELECT * FROM users WHERE email = ?";
         $params = ["s", [$email]];
 

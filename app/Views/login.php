@@ -37,7 +37,8 @@ require_once( __DIR__ . "../components/header.php");
 
                 <span class="flex flex-col ">
                     <label for="email" class="mb-1.5 ml-0.5">Email address</label>
-                    <input type="email" name="email" placeholder="Your email address" class="py-2 pl-3 pr-1 border rounded-md border-gray-200">
+                    <input type="email" name="email" placeholder="Your email address" autofocus class="py-2 pl-3 pr-1 border rounded-md border-gray-200">
+                    <p class="text-red-500"><?= $error_no_user ?></p>
                 </span>
         
                 <span class="flex flex-col ">
