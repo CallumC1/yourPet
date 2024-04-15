@@ -9,7 +9,7 @@ require_once( __DIR__ . "../components/navbar.php");
     
     <h2 class="text-2xl font-semibold mt-5 mb-3 underline">Products</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         <?php
         // Loop through the products and include the productCard component
         if (isset($products)) {
