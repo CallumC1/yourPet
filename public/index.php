@@ -34,14 +34,17 @@ $router->addRoute("GET", "/about", "AboutController@index");
 
 $router->addRoute("GET", "/form", "FormController@index");
 $router->addRoute("POST", "/formSubmit", "FormController@submit");
-
+ 
 // Registration Routes
 $router->addRoute("GET", "/register", "RegisterController@index");
+$router->addMiddleware("/register", "checkLoggedIn");
 $router->addRoute("POST", "/registerSubmit", "AccountController@submitRegistration");
-$router->addRoute("POST", "/loginSubmit", "AccountController@submitLogin");
+
 
 // Login Routes
 $router->addRoute("GET", "/login", "LoginController@index");
+$router->addMiddleware("/login", "checkLoggedIn");
+$router->addRoute("POST", "/loginSubmit", "AccountController@submitLogin");
 $router->addRoute("GET", "/logout", "AccountController@logout");
 
 

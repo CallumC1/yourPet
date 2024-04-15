@@ -5,7 +5,7 @@ class RegisterController {
     
     public function index() {
 
-        $error = isset($_SESSION["error"]) ? $_SESSION["error"] : "";
+        $error = isset($_SESSION["error"]) ? $_SESSION["error"] : [""];
         $error_email = "";
         $error_terms = "";
 
@@ -20,8 +20,6 @@ class RegisterController {
                 $error = "";
                 break;
         }
-
-     
         
         require_once __DIR__ . '../../Views/register.php';
     }

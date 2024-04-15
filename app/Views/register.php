@@ -43,7 +43,8 @@ require_once( __DIR__ . "../components/header.php");
                 <span class="flex flex-col ">
                     <label for="email" class="mb-1.5 ml-0.5">Email address</label>
                     <input type="email" name="email" placeholder="Your email address" class="py-2 pl-3 pr-1 border rounded-md border-gray-200">
-                    <?= $error_email ?>
+                    <p class="text-red-500"><?= $error_email ?></p>
+
                 </span>
         
                 <span class="flex flex-col ">
@@ -51,10 +52,13 @@ require_once( __DIR__ . "../components/header.php");
                     <input type="password" name="password" placeholder="Enter a password" class="py-2 pl-3 pr-1 rounded-md border border-gray-200 ">
                 </span>
 
-                <span class="flex items-center gap-3">
-                    <input type="checkbox" name="terms" id="terms" class="h-5 w-5" required>
-                    <label for="terms" class="text-sm">I agree to YourPet's  <a href="/terms" class="text-blue-600 underline">Terms of Serivce & Privacy Policy</a></label>
-                </span>
+                <div>
+                    <span class="flex items-center gap-3">
+                        <input type="checkbox" name="terms" id="terms" class="h-5 w-5" required>
+                        <label for="terms" class="text-sm">I agree to YourPet's  <a href="/terms" class="text-blue-600 underline">Terms of Serivce & Privacy Policy</a></label>
+                    </span>
+                    <p class="text-red-500"><?= $error_terms ?></p>
+                </div>
         
                 <input type="submit" value="Create Account" class="mt-8 p-4 font-semibold bg-emerald-500 hover:bg-emerald-600 rounded-md cursor-pointer transition-all duration-300">
             </form>

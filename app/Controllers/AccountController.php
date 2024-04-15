@@ -35,7 +35,8 @@ class AccountController {
         }
 
         if (!isset($_POST['terms'])) {
-            $_SESSION['error'] = "Please agree to the terms of service and privacy policy";
+            $_SESSION["error"] = ["terms", "Please agree to the terms of service and privacy policy"];
+
             header("Location: /register");
             exit();
         }
