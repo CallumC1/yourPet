@@ -10,15 +10,15 @@ require_once( __DIR__ . "../components/navbar.php");
 <div class="relative w-full max-h-96">
     <img src="/assets/images/cow-hero.webp" alt="" class="w-full h-96 object-cover opacity-95">
 
-    <div class="absolute z-10 w-80 sm:w-96 lg:w-[28rem] h-72 top-1/2 left-1/2 md:left-3/4 -translate-x-1/2 -translate-y-1/2 bg-white opacity-[96%] drop-shadow-md p-5 rounded-sm">
+    <div class="absolute z-10 w-80 sm:w-96 lg:w-[28rem] h-auto top-1/2 left-1/2 md:left-3/4 -translate-x-1/2 -translate-y-1/2 bg-white opacity-[96%] drop-shadow-md p-5 rounded-sm">
         <h1 class="text-4xl font-bold text-black mb-4">Welcome to <span class="text-emerald-600 underline">YourPet</span></h1>
         
-        <p class="block md:hidden text-lg mb-4 ml-1">We provide medical services for pets and also sell pet products.</p>
-        <p class="hidden md:block text-lg mb-4 ml-1">We provide medical services for pets and also sell pet products. We are dedicated to providing the best care for your pets.</p>
+        <p class="block lg:hidden text-lg mb-4 ml-1">We provide medical services for pets and also sell pet products.</p>
+        <p class="hidden lg:block text-lg mb-4 ml-1">We provide medical services for pets and also sell pet products. We are dedicated to providing the best care for your pets.</p>
         
-        <a href="/register" class="group flex justify-center w-60 px-10 py-5 ml-1 bg-emerald-600 text-white font-semibold text-base rounded-sm">
+        <a href="/register" class="group flex justify-center w-auto md:w-fit px-10 py-5 ml-1 bg-emerald-600 text-white font-semibold text-base rounded-sm">
             Register Today 
-            <img src="/assets/icons/arrow-right.svg" alt="" class="ml-3 transition-all group-hover:ml-4 size-6">
+            <img src="/assets/icons/arrow-right.svg" alt="" class="ml-3 transition-all group-hover:translate-x-1 size-6">
         </a>
     </div>
     
