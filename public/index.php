@@ -58,6 +58,9 @@ $router->addRoute("GET", "/products/{productType}", "ProductsController@getProdu
 $router->addRoute("GET", "/dashboard", "DashboardController@index");
 $router->addMiddleware("/dashboard", "userAuth");
 
+$router->addRoute("GET", "/pets", "MyPetsController@index");
+$router->addMiddleware("/pets", "userAuth");
+
 
 
 // Handles the request
