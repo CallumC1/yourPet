@@ -17,86 +17,41 @@ require_once( __DIR__ . "../components/navbar.php");
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto gap-8 my-6 w-full h-full items-center place-items-center ">
 
-        <!-- My Pets Card -->
-        <div class="flex flex-col gap-y-3 bg-white w-full md:w-80 h-auto p-3 ring-emerald-500 duration-200 hover:ring-2 pointer-events-none drop-shadow-md rounded-md">
+        <?php
+        // Dashboard Cards
+        // Imported from components/dashboardCard.php
+        $cards = [
+            [
+                'title' => 'My Pets',
+                'description' => 'View and manage your pets',
+                'link' => '/pets',
+                'linkText' => 'Pets'
+            ],
+            [
+                'title' => 'Appointments',
+                'description' => 'Book and view Appointments',
+                'link' => '#',
+                'linkText' => 'Appointments'
+            ],
+            [
+                'title' => 'My Profile',
+                'description' => 'View and edit your profile',
+                'link' => '#',
+                'linkText' => 'Manage Profile'
+            ],
+            [
+                'title' => 'My Orders',
+                'description' => 'View your orders',
+                'link' => '#',
+                'linkText' => 'Orders'
+            ]
+        ];
 
-            <div class="flex gap-x-4 items-center">
-
-                <span class="w-14 h-14 bg-[#109DB9] rounded-md flex justify-center items-center ">
-                    <img src="/assets/icons/user.svg" alt="Profile" class="size-8" />
-                </span>
-        
-                <span class="flex flex-col ml-3">
-                    <h2>My Pets</h2>
-                    <p>View and manage your pets</p>
-                </span>
-
-            </div>
-
-            <a href="/pets" class="bg-emerald-500 w-full  mx-auto px-2 py-3 rounded-md text-white font-semibold text-center pointer-events-auto">Pets</a>
-
-        </div>
-
-        <!-- Appointments Card -->
-        <div class="flex flex-col gap-y-3 bg-white w-full md:w-80 h-auto rounded-md p-3 ring-emerald-500 duration-200 hover:ring-2 pointer-events-none drop-shadow-md">
-
-            <div class="flex gap-x-4 items-center">
-
-                <span class="w-14 h-14 bg-[#109DB9] rounded-md flex justify-center items-center ">
-                    <img src="/assets/icons/user.svg" alt="Profile" class="size-8" />
-                </span>
-        
-                <span class="flex flex-col ml-3">
-                    <h2>Appointments</h2>
-                    <p>Book and view Appointments</p>
-                </span>
-
-            </div>
-
-            <a href="#" class="bg-emerald-500 w-full  mx-auto px-2 py-3 rounded-md text-white font-semibold text-center pointer-events-auto">Appointments</a>
-
-        </div>
-
-        <!-- My Profile Card -->
-        <div class="flex flex-col gap-y-3 bg-white w-full md:w-80 h-auto rounded-md p-3 ring-emerald-500 duration-200 hover:ring-2 pointer-events-none drop-shadow-md">
-
-            <div class="flex gap-x-4 items-center">
-
-                <span class="w-14 h-14 bg-[#109DB9] rounded-md flex justify-center items-center ">
-                    <img src="/assets/icons/user.svg" alt="Profile" class="size-10" />
-                </span>
-
-                <span class="flex flex-col ml-3">
-                    <h2>My Profile</h2>
-                    <p>View and edit your profile</p>
-                </span>
-
-            </div>
-
-            <a href="#" class="bg-emerald-500 w-full  mx-auto px-2 py-3 rounded-md text-white font-semibold text-center pointer-events-auto">Manage Profile</a>
-
-        </div>
-        
-        <!-- Orders Card -->
-        <div class="flex flex-col gap-y-3 bg-white w-full md:w-80 h-auto rounded-md p-3 ring-emerald-500 duration-200 hover:ring-2 pointer-events-none drop-shadow-md">
-
-            <div class="flex gap-x-4 items-center">
-
-                <span class="w-14 h-14 bg-[#109DB9] rounded-md flex justify-center items-center ">
-                    <img src="/assets/icons/user.svg" alt="Orders" class="size-10" />
-                </span>
-
-                <span class="flex flex-col ml-3">
-                    <h2>My Orders</h2>
-                    <p>View your orders</p>
-                </span>
-
-            </div>
-
-            <a href="#" class="bg-emerald-500 w-full  mx-auto px-2 py-3 rounded-md text-white font-semibold text-center pointer-events-auto">Orders</a>
-
-        </div>
-
+        foreach ($cards as $card) {
+            extract($card);
+            include(__DIR__ . "../components/dashboardCard.php");
+        }
+        ?>
 
     </div>
 
