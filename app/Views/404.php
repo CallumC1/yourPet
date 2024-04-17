@@ -6,7 +6,18 @@ require_once( __DIR__ . "../components/header.php");
 
 <div class="flex flex-col h-screen w-screen mx-auto justify-center items-center">
     <div class="size-80">
-        <img src="/assets/images/404.webp" alt="Cute Dog holding Page Not Found sign" class="w-80 h-80">
+        <?php
+
+            $images = [
+                "/assets/images/404.webp",
+                "/assets/images/404-2.webp",
+                "/assets/images/404-3.webp",
+            ];
+
+            $imag = $images[array_rand($images)];
+
+        ?>
+        <img src="<?= $imag ?>" alt="Cute Dog holding Page Not Found sign" class="w-80 h-80">
     </div>
 
     <h1>404 - Page not found.</h1>
