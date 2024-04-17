@@ -17,7 +17,7 @@ require_once( __DIR__ . "../components/navbar.php");
         </span>
 
         <span>
-            <a href="/dashboard" class="p-4">Back to Dash</a>
+            <a href="/dashboard" class="font-semibold p-4 underline">Back to Dashboard</a>
         </span>
     </div>
 
