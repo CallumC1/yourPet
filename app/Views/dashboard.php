@@ -7,7 +7,7 @@ require_once( __DIR__ . "../components/navbar.php");
 
 
 <!-- Page Container -->
-<div class="flex flex-col w-full px-4 mt-6 max-w-screen-2xl mx-auto">
+<div class="flex flex-col w-full px-4 mt-4 max-w-screen-2xl mx-auto">
 
     <div class="bg-[#109DB9] w-full h-auto p-4 rounded-sm text-white">
         <h1>User Dashboard</h1>
@@ -15,12 +15,10 @@ require_once( __DIR__ . "../components/navbar.php");
     </div>
 
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto gap-8 py-3 w-full h-full items-center place-items-center ">
-
-
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto gap-8 my-6 w-full h-full items-center place-items-center ">
 
         <!-- My Pets Card -->
-        <div class="flex flex-col gap-y-3 bg-white w-full md:w-80 h-auto rounded-md p-3 ring-emerald-500 duration-200 hover:ring-2 pointer-events-none drop-shadow-md">
+        <div class="flex flex-col gap-y-3 bg-white w-full md:w-80 h-auto p-3 ring-emerald-500 duration-200 hover:ring-2 pointer-events-none drop-shadow-md rounded-md">
 
             <div class="flex gap-x-4 items-center">
 
