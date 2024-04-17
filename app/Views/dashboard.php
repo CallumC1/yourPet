@@ -11,7 +11,8 @@ require_once( __DIR__ . "../components/navbar.php");
 
     <div class="bg-[#109DB9] w-full h-auto p-4 rounded-sm text-white">
         <h1>User Dashboard</h1>
-        <p>Welcome to your dashboard, <?php out($_SESSION["user_data"]["name"]) ?> </p>
+        <p>Welcome to your dashboard, <?php out($_SESSION["user_data"]["name"]) ?>!</p>
+        <a href="/logout" class="text-xs">Sign out</a>
     </div>
 
 
@@ -25,32 +26,28 @@ require_once( __DIR__ . "../components/navbar.php");
                 'title' => 'My Pets',
                 'description' => 'View and manage your pets',
                 'link' => '/pets',
-                'linkText' => 'Pets'
             ],
             [
                 'title' => 'Appointments',
                 'description' => 'Book and view Appointments',
                 'link' => '#',
-                'linkText' => 'Appointments'
             ],
             [
                 'title' => 'My Profile',
                 'description' => 'View and edit your profile',
                 'link' => '#',
-                'linkText' => 'Manage Profile'
             ],
             [
                 'title' => 'My Orders',
                 'description' => 'View your orders',
                 'link' => '#',
-                'linkText' => 'Orders'
             ]
         ];
 
         foreach ($cards as $card) {
             extract($card);
             include(__DIR__ . "../components/dashboardCard.php");
-        }
+        };
         ?>
 
     </div>
