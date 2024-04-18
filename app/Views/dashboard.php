@@ -11,7 +11,8 @@ require_once( __DIR__ . "../components/navbar.php");
 
     <div class="bg-[#109DB9] w-full h-auto p-4 rounded-sm text-white">
         <h1>User Dashboard</h1>
-        <p>Welcome to your dashboard, <?php out($_SESSION["user_data"]["name"]) ?>!</p>
+        <p>Welcome to your dashboard, <span class="font-semibold"><?php out($_SESSION["user_data"]["name"]) ?></span>! </p>
+        <p>Here you can manage your added pets, scheduled appointments, orders and user profile.</p>
         <a href="/logout" class="text-xs">Sign out</a>
     </div>
 
@@ -33,13 +34,13 @@ require_once( __DIR__ . "../components/navbar.php");
                 'link' => '#',
             ],
             [
-                'title' => 'My Profile',
-                'description' => 'View and edit your profile',
+                'title' => 'My Orders',
+                'description' => 'View your orders',
                 'link' => '#',
             ],
             [
-                'title' => 'My Orders',
-                'description' => 'View your orders',
+                'title' => 'My Profile',
+                'description' => 'View and edit your profile',
                 'link' => '#',
             ]
         ];
