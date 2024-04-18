@@ -12,13 +12,19 @@
         <ul class="hidden lg:flex items-center lg:gap-6">
             <li><a class="p-5 hover:underline" href="/">Home</a></li>
             <li><a class="p-5 hover:underline" href="/products/all">Products</a></li>
-            <li><a class="p-5 hover:underline" href="/about">About Us</a></li>
-            <li><a class="p-5 hover:underline" href="/register">Register</a></li>
-            <li>
+            <li><a class="p-5 hover:underline" href="/about">About us</a></li>
+
+            <?php if (isset($_SESSION["user_data"])): ?>
+                <li><a class="p-5 hover:underline" href="/dashboard">Dashboard</a></li>
+            <?php else: ?>
+                <li><a class="p-5 hover:underline" href="/login">Log in</a></li>
+                <li><a class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-sm text-white" href="/register">Register</a></li>
+            <?php endif; ?>
+            <!-- <li class="flex">
                 <div class="size-auto p-2 rounded-full bg-black">
                     <img src="/assets/icons/user.svg" alt="">
                 </div>
-            </li>
+            </li> -->
         </ul>    
 
         <!-- Mobile -->
