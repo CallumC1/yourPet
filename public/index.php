@@ -63,6 +63,7 @@ $router->addMiddleware("/pets", "userAuth");
 
 
 
+
 // Handles the request
 $router->handleRequest($uri, $method);
 
