@@ -25,10 +25,10 @@ require_once( __DIR__ . "../components/header.php");
 
         <div class="flex flex-col justify-center w-full h-full ">
 
-            <span class="flex items-center gap-2 mb-2">
+            <a href="/" class="flex items-center gap-2 mb-2">
                 <img src="/assets/icons/arrow-left-circle.svg" alt="" class="w-5 h-5">
-                <a href="/" class="hover:underline underline-offset-2 text-blue-500 font-semibold">Go back</a>
-            </span>
+                <p class="hover:underline underline-offset-2 text-blue-500 font-semibold">Go back</p>
+            </a>
             <h2 class="text-2xl mb-4">Login to your account</h2>
 
     
