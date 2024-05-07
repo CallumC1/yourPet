@@ -41,8 +41,18 @@ class Router {
 
     // Add middleware to a route
     public function addMiddleware($route, $middleware) {
-        $this->middleware[$route] = $middleware;
-        // echo "Middleware added to route: " . $route;
+
+        // When middleware is added, check the string for an @ symbol to split the middleware and method apart.
+        // If no method is provided, default to handle.
+        $method = explode("@", $middleware);
+        $middleware = $method[0];
+        $methodName = $method[1] ?? "handle";
+
+
+        $this->middleware[$route] = [
+            "middleware" => $middleware,
+            "methodName" => $methodName,
+        ];
     }
 
 
@@ -72,11 +82,15 @@ class Router {
             // Middleware Logic
             // Check if the route has middleware
             if (isset($this->middleware[$route])) {
-                $middlewareName = $this->middleware[$route];
+                $middlewareName = $this->middleware[$route]["middleware"];
+                $middlewareMethodName = $this->middleware[$route]["methodName"];
+       
 
                 // Initialize & execute the middleware.
                 $middleware = new $middlewareName();
-                $middleware->handle();
+
+                // Change handle to split method.
+                $middleware->$middlewareMethodName();
         
             };
 
@@ -87,8 +101,6 @@ class Router {
                 echo "Method not allowed" . "<br>" . "Allowed methods: " . $data["requestMethod"];
                 exit();
             }
-
-
 
 
             // Get controller & Split the method
