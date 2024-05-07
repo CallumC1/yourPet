@@ -17,12 +17,18 @@ class userAuth {
             exit();
         }
 
-        // Check if user is an admin
-        // For security reasons, in the future, the role should be checked against a database.
-        if ($_SESSION['user_data']['role'] !== 'admin') {
+        // Check if user is admin from the database.
+        // We check the database as we should not trust the session data for such important checks.
+        require_once(__DIR__ . '/../Models/AccountModel.php');
+        $accountModel = new AccountModel();
+
+        $userRole = $accountModel->getUserRole($_SESSION['user_data']['id']);
+
+        if ($userRole !== 'admin') {
             header("Location: /dashboard");
             exit();
         }
+
     }
 
 }

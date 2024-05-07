@@ -14,7 +14,7 @@ class AccountModel {
 
         $result = $this->db->executeQuery($sql, $params);
         $result = $result->num_rows;
- 
+
 
         // If the user exists, return true
         if ($result > 0) {
@@ -38,6 +38,21 @@ class AccountModel {
     public function checkLogin($email) {
         $sql = "SELECT * FROM users WHERE user_email = ?";
         $params = ["s", [$email]];
+
+        $result = $this->db->executeQuery($sql, $params);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
+
+    public function getUserRole($user_id) {
+        $sql = "SELECT user_roles FROM users WHERE user_id = ?";
+        $params = ["i", [$user_id]];
 
         $result = $this->db->executeQuery($sql, $params);
 
