@@ -16,12 +16,12 @@ class AccountController {
             return False;
         }
 
-        if (password_verify($password, $user['password_hash'])) {
+        if (password_verify($password, $user['user_password_hash'])) {
 
             $_SESSION["user_data"] = [
                 "id" => $user['user_id'],
-                "name" => $user['name'],
-                "email" => $user['email']
+                "name" => $user['user_name'],
+                "email" => $user['user_email']
             ];
 
             return True;

@@ -26,7 +26,7 @@ class AccountModel {
 
 
     public function insertRegistrationData ($name, $email, $password_hash) {
-        $sql = "INSERT INTO users (name, user_email, user_password_hash) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO users (user_name, user_email, user_password_hash) VALUES (?, ?, ?)";
         $params = ["sss", [$name, $email, $password_hash]];
 
         $result =  $this->db->insertQuery($sql, $params);
