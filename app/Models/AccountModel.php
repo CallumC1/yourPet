@@ -9,7 +9,7 @@ class AccountModel {
 
 
     public function checkUserExists($email) {
-        $sql = "SELECT email FROM users WHERE email = ?";
+        $sql = "SELECT user_email FROM users WHERE user_email = ?";
         $params = ["s", [$email]];
 
         $result = $this->db->executeQuery($sql, $params);
@@ -26,7 +26,7 @@ class AccountModel {
 
 
     public function insertRegistrationData ($name, $email, $password_hash) {
-        $sql = "INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO users (name, user_email, user_password_hash) VALUES (?, ?, ?)";
         $params = ["sss", [$name, $email, $password_hash]];
 
         $result =  $this->db->insertQuery($sql, $params);
@@ -36,7 +36,7 @@ class AccountModel {
 
 
     public function checkLogin($email) {
-        $sql = "SELECT * FROM users WHERE email = ?";
+        $sql = "SELECT * FROM users WHERE user_email = ?";
         $params = ["s", [$email]];
 
         $result = $this->db->executeQuery($sql, $params);
