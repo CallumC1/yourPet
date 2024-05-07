@@ -24,7 +24,7 @@ class userAuth {
 
         $userRole = $accountModel->getUserRole($_SESSION['user_data']['id']);
 
-        if ($userRole !== 'admin') {
+        if ($userRole["user_roles"] !== 'admin') {
             header("Location: /dashboard");
             exit();
         }
