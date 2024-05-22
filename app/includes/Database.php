@@ -12,7 +12,7 @@ class Database {
         $db_name = getenv('MYSQL_DATABASE');
         $username = getenv('MYSQL_USER');
         $password = getenv('MYSQL_PASSWORD');
-        
+        php_info();
         echo "host: " . $host;
         $this->conn = new mysqli($this->host, $this->username, $this->password, $this->db_name);
 
