@@ -15,6 +15,7 @@ class Database {
 
     // Create a connection to the database
     public function __construct() {
+        echo "host: " . $host;
         $this->conn = new mysqli($this->host, $this->username, $this->password, $this->db_name);
 
         if ($this->conn->connect_error) {
