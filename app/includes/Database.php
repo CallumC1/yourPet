@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 class Database {
     private $conn;
     
@@ -12,7 +10,7 @@ class Database {
         $db_name = getenv('MYSQL_DATABASE');
         $username = getenv('MYSQL_USER');
         $password = getenv('MYSQL_PASSWORD');
-        // $this->conn = new mysqli($this->host, $this->username, $this->password, $this->db_name);
+        $this->conn = new mysqli($host, $username, $password, $db_name);
 
         if ($this->conn->connect_error) {
             die("Connection failed: " . $this->conn->connect_error);
