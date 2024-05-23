@@ -64,5 +64,5 @@ require_once( __DIR__ . "/components/navbar.php");
 
 
 <?php 
-require_once( __DIR__ . "../components/footer.php");
+require_once( __DIR__ . "/components/footer.php");
 ?>

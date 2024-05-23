@@ -1,12 +1,14 @@
-version: '3.3'
+version: '3.8'
 
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8082:80"
     volumes:
-      - ./public:/var/www/html/public
+      #- ./public:/var/www/html/public
       - ./router.php:/var/www/html/router.php
       - ./app:/var/www/html/app
       - ./apache/vhost.conf:/etc/apache2/sites-available/000-default.conf
@@ -14,23 +16,20 @@ services:
       - db
     environment:
       - MYSQL_HOST=db
-      - MYSQL_USER=yourpetUser
-      - MYSQL_PASSWORD=1234
-      - MYSQL_DATABASE=yourpet
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
 
   db:
-    image: mysql:lts
+    image: mysql:8.4  # use a specific version of MySQL, adjust as necessary
     environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: yourpet
-      MYSQL_USER: yourpetUser
-      MYSQL_PASSWORD: 1234
-      command: "--innodb-fast-shutdown=0"
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
-      - ./setup/yourpet.sql:/docker-entrypoint-initdb.d/init.sql
-        
-        
-volumes:
-    db_data:
+      - ./setup/init.sql:/docker-entrypoint-initdb.d/init.sql
 
+volumes:
+  db_data:

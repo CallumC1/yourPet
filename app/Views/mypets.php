@@ -1,8 +1,8 @@
 
 <!-- A page title can be set here or leave blank for default. -->
 <?php $pageTitle = "My Pets";
-require_once( __DIR__ . "../components/header.php");
-require_once( __DIR__ . "../components/navbar.php");
+require_once( __DIR__ . "/components/header.php");
+require_once( __DIR__ . "/components/navbar.php");
 ?>
 
 
@@ -55,5 +55,5 @@ require_once( __DIR__ . "../components/navbar.php");
 
 
 <?php 
-require_once( __DIR__ . "../components/footer.php");
+require_once( __DIR__ . "/components/footer.php");
 ?>

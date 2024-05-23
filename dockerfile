@@ -25,7 +25,7 @@ COPY ./public /var/www/html/public
 
 # Install Node.js dependencies
 RUN npm install
-
+RUN npm run build:css
 
 # Expose port 80
 EXPOSE 80
