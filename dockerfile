@@ -26,14 +26,7 @@ COPY ./public /var/www/html/public
 # Install Node.js dependencies
 RUN npm install
 
-# Copy the entrypoint script
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-
-# Make the entrypoint script executable
-RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Expose port 80
 EXPOSE 80
 
-# Set the entrypoint
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
