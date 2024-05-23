@@ -29,7 +29,7 @@ services:
       MYSQL_PASSWORD: 1234
     volumes:
       - db_data:/var/lib/mysql
-      - ./setup/yourpet.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./setup/init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   db_data:
