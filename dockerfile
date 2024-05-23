@@ -1,13 +1,11 @@
 # Use an official PHP image as the base image
 FROM php:7.4-apache
 
-# Install Node.js (LTS version) and npm
-RUN apt-get update && apt-get install -y curl \
+# Install Node.js (LTS version), npm, and git
+RUN apt-get update && apt-get install -y curl git \
     && curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
-    && apt-get install -y nodejs
-
-# Install MySQLi extension
-RUN docker-php-ext-install mysqli
+    && apt-get install -y nodejs \
+    && docker-php-ext-install mysqli
 
 # Set the working directory
 WORKDIR /var/www/html
@@ -24,6 +22,9 @@ COPY package.json /var/www/html/package.json
 COPY router.php /var/www/html/router.php
 COPY tailwind.config.js /var/www/html/
 COPY ./public /var/www/html/public
+
+# Install Node.js dependencies
+RUN npm install
 
 # Copy the entrypoint script
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
