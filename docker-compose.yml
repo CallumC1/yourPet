@@ -16,17 +16,17 @@ services:
       - db
     environment:
       - MYSQL_HOST=db
-      - MYSQL_USER=yourpetUser
-      - MYSQL_PASSWORD=1234
-      - MYSQL_DATABASE=yourpet
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
 
   db:
     image: mysql:8.4  # use a specific version of MySQL, adjust as necessary
     environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: yourpet
-      MYSQL_USER: yourpetUser
-      MYSQL_PASSWORD: 1234
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
       - ./setup/init.sql:/docker-entrypoint-initdb.d/init.sql
