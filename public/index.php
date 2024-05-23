@@ -13,7 +13,7 @@ function out($string) {
     echo(htmlspecialchars($string));
 }
 
-echo "Hello World!";
+
 
 // Routing
 

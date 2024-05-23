@@ -1,7 +1,7 @@
 <!-- A page title can be set here or leave blank for default. -->
 <?php $pageTitle = "YourPet - Products";
-require_once( __DIR__ . "../components/header.php");
-require_once( __DIR__ . "../components/navbar.php");
+require_once( __DIR__ . "/components/header.php");
+require_once( __DIR__ . "/components/navbar.php");
 
 ?>
 
@@ -18,7 +18,7 @@ require_once( __DIR__ . "../components/navbar.php");
                 $product_name = $product['product_name'];
                 $product_stock = $product['product_stock'];
     
-                include( __DIR__ . "../components/productCard.php"); 
+                include( __DIR__ . "/components/productCard.php"); 
             }
         } 
         ?>
@@ -28,5 +28,5 @@ require_once( __DIR__ . "../components/navbar.php");
 
 
 <?php 
-require_once( __DIR__ . "../components/footer.php");
+require_once( __DIR__ . "/components/footer.php");
 ?>
