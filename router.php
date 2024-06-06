@@ -15,6 +15,9 @@ spl_autoload_register(function ($class) {
     }
 });
 
+require __DIR__ . '/vendor/autoload.php';
+
+
 class Router {
     protected $routes = [];
     protected $middleware = [];

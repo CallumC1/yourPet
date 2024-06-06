@@ -72,6 +72,7 @@ $router->addRoute("GET", "/auth/email", "AccountController@generateEmailVerifica
 $router->addRoute("GET", "/auth/email/{userid}/{token}", "AccountController@verifyEmailToken");
 
 
+$router->addRoute("GET", "/test", "AccountController@test");
 
 // Handles the request
 $router->handleRequest($uri, $method);

@@ -1,5 +1,5 @@
 # Use an official PHP image as the base image
-FROM php:7.4-apache
+FROM php:8.2-apache
 
 # Install Node.js (LTS version), npm, and git
 RUN apt-get update && apt-get install -y curl git \
@@ -13,7 +13,10 @@ WORKDIR /var/www/html
 # Copy the virtual host configuration
 COPY ./apache/vhost.conf /etc/apache2/sites-available/000-default.conf
 
-# Enable Apache mod_rewrite (optional, if you need it)
+# Install Composer
+COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
+
+# Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
 # Copy the application files to the container
@@ -26,6 +29,15 @@ COPY ./public /var/www/html/public
 # Install Node.js dependencies
 RUN npm install
 RUN npm run build:css
+
+# Setup Composer
+COPY composer.json /var/www/html/composer.json
+RUN composer install
+RUN composer require resend/resend-php
+
+
+
+
 
 # Expose port 80
 EXPOSE 80

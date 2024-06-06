@@ -12,6 +12,7 @@ services:
       - ./router.php:/var/www/html/router.php
       - ./app:/var/www/html/app
       - ./apache/vhost.conf:/etc/apache2/sites-available/000-default.conf
+      - ./composer.json:/var/www/html/composer.json
     depends_on:
       - db
     environment:
@@ -41,6 +42,7 @@ services:
       - 8083:80
     depends_on:
       - db
+      
 
 volumes:
   db_data:

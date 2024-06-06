@@ -157,6 +157,24 @@ class AccountController {
     }
 
 
+
+    public function test() {
+
+
+
+
+        $resend = Resend::client('re_UWUxdTNd_CaCvcUrb5d2sRA9xDDHBexE3');
+
+        $resend->emails->send([
+            'from' => 'test@yourpet.callumc.net',
+            'to' => 'rdskyra1234@gmail.com',
+            'subject' => 'hello world',
+            'html' => '<h1>Hello, world!</h1> <p>This is a test email</p>',
+        ]);
+
+    }
+
+
     /**
      * Verifys the users email using a token thy have provided in the URL.
      * 
