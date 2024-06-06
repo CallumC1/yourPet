@@ -30,7 +30,7 @@ class Router {
             // Replace {param} with regex to match any string
             $route = preg_replace('/{[a-zA-Z0-9]+}/', '([a-zA-Z0-9]+)', $route);
         }
-
+        
         $this->routes[$route] = [
             "requestMethod" => $requestMethod,
             "controller" => $controller,
@@ -57,7 +57,6 @@ class Router {
 
 
     public function handleRequest($URI, $method) {
-        
 
         $seperatedURI = explode("?", $URI);
         $URIParams = $seperatedURI[1] ?? null; 
@@ -84,7 +83,6 @@ class Router {
             if (isset($this->middleware[$route])) {
                 $middlewareName = $this->middleware[$route]["middleware"];
                 $middlewareMethodName = $this->middleware[$route]["methodName"];
-       
 
                 // Initialize & execute the middleware.
                 $middleware = new $middlewareName();
@@ -119,12 +117,15 @@ class Router {
             $controllerName = new $controllerName();
 
             
-            // Get the parameter from preg_match
-            $params = $matches[1] ?? null;
+            // Get the parameters from preg_match
+            // Remove the first element from the array, as it is the full match
+            // The rest of the array are the parameters
+            $slicedArray = array_slice($matches, 1);
+            $params = $slicedArray ?? null;
 
-            // If the route has parameters, pass them to the method (WIP)
+            // If the route has parameters, pass them to the method as an unpacked array
             if (isset($params)) {
-                call_user_func_array(array($controllerName, $methodName), array($params));
+                call_user_func_array(array($controllerName, $methodName), array(...$params));
             } else {
                 $controllerName->$methodName();
             }
