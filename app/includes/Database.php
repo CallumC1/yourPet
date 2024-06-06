@@ -25,12 +25,11 @@ class Database {
         if ($params != "") {
             $stmt->bind_param($params[0], ...$params[1]);
         }
-        
         try {
             $result = $stmt->execute();
             $stmt->close();
             return $result;
-
+            
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
             $stmt->close();
