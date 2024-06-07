@@ -6,16 +6,19 @@ require_once (__DIR__ . '/app/includes/Database.php');
 // Autoloads classes and middleware
 spl_autoload_register(function ($class) {
     $controllerPath =  __DIR__ . '/app/Controllers/' . $class . '.php';
+    $servicePath =  __DIR__ . '/app/Services/' . $class . '.php';
     $middlewarePath = __DIR__ . '/app/Middleware/' . $class . '.php';
 
     if (file_exists($controllerPath)) {
         require_once $controllerPath;
     } else if (file_exists($middlewarePath)) {
         require_once $middlewarePath;
+    } else if (file_exists($servicePath)) {
+        require_once $servicePath;
     }
 });
 
-require __DIR__ . '/vendor/autoload.php';
+// require __DIR__ . '/vendor/autoload.php';
 
 
 class Router {

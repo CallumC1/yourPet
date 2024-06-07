@@ -63,7 +63,6 @@ $router->addRoute("GET", "/pets", "MyPetsController@index");
 $router->addMiddleware("/pets", "userAuth");
 
 // Admin Dashboard
-
 $router->addRoute("GET", "/admin/dashboard", "AdminDashboardController@index");
 $router->addMiddleware("/admin/dashboard", "userAuth@adminHandle");
 
