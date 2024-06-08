@@ -35,8 +35,10 @@ class AccountController {
                 $_SESSION["error"] = ["email_not_verified", "Please verify your email"];
                 // echo "Email not verified, please verify your email";
 
-                $generatedToken = $this->tokenService->generateToken();
-                echo $generatedToken;
+                $generatedToken = $this->tokenService->generateToken($user_id);
+                echo ($this->tokenService->saveToken($user_id, $generatedToken));
+
+                exit();
 
                 // Send email to user with token then redirect to page to check email
                 // $this->sendEmailVerificationToken($user_id, $user_email, $generatedToken);

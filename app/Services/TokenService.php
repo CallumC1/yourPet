@@ -28,13 +28,53 @@ class TokenService {
         return $token;
     }
 
-    public function saveToken($user_id, $token) {
-        $hasToken = $tokenModel->checkActiveToken($user_id);
+    /**
+     * 
+     * Checks if the user has a valid token in the database.
+     * Returns one of the following:
+     * NT - No token exists
+     * TE - Token has expired
+     * TV - Token is valid
+     * 
+     * @param int $user_id
+     */
+    public function checkToken($user_id) {
+        $token = $this->tokenModel->checkActiveToken($user_id);
+        
+        // If no token exists, return false
+        if (!$token) {
+            return "NT";
+        }
+            
+            
+        $now = new DateTime();
+        $expires_at = new DateTime($token['expires_at']);
+        // If token has expired, return false
+        if ($expires_at < $now) {
+            echo ($expires_at < $now);
+            return "TE";
+        }
 
-        if ($hasToken) {
-            $saveSuccess = $this->tokenModel->updateToken($user_id, $token);
+        return "TV";
+    }
+
+    public function saveToken($user_id, $token) {
+
+        $tokenMade = date('Y-m-d H:i:s');
+        $tokenExpires = date('Y-m-d H:i:s', strtotime('+30 minutes'));
+
+        // Check if the user already has a token that is active
+        // $hasToken = $this->tokenModel->checkActiveToken($user_id);
+        $hasToken = $this->checkToken($user_id);
+
+        if ($hasToken == "NT") {
+            $saveSuccess = $this->tokenModel->insertToken($user_id, $token, $tokenMade, $tokenExpires);
+        } elseif ($hasToken == "TE") {
+            $saveSuccess = $this->tokenModel->updateToken($user_id, $token, $tokenMade, $tokenExpires);
+            echo "Token has expired, updating token.";
         } else {
-            $saveSuccess = $this->tokenModel->insertToken($user_id, $token);
+            $saveSuccess = true;
+            echo ("Token is still valid, please wait for it to expire.");
         }
 
         // If the token was not inserted, return an error
@@ -42,7 +82,7 @@ class TokenService {
             return false;
         }
 
-        return true;
+        // return true;
     }
 
 
