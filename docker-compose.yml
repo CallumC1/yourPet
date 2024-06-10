@@ -20,6 +20,7 @@ services:
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - RESEND_API_KEY=${RESEND_API_KEY}
 
   db:
     image: mysql:8.4  # use a specific version of MySQL, adjust as necessary

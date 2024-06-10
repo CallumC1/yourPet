@@ -69,20 +69,21 @@ class TokenService {
 
         if ($hasToken == "NT") {
             $saveSuccess = $this->tokenModel->insertToken($user_id, $token, $tokenMade, $tokenExpires);
+            return $saveSuccess;
         } elseif ($hasToken == "TE") {
             $saveSuccess = $this->tokenModel->updateToken($user_id, $token, $tokenMade, $tokenExpires);
-            echo "Token has expired, updating token.";
+            return $saveSuccess;
         } else {
-            $saveSuccess = true;
-            echo ("Token is still valid, please wait for it to expire.");
+            $saveSuccess = false;
+            return $saveSuccess;
         }
 
         // If the token was not inserted, return an error
         if (!$saveSuccess) {
-            return false;
+            echo ("Error saving token");
+            exit();
+            // return false;
         }
-
-        // return true;
     }
 
 
@@ -129,13 +130,27 @@ class TokenService {
      */
     public function sendEmailVerificationToken($user_id, $user_email, $token) {
 
+        // Set the last time the email was sent.
+        // This is used to prevent spamming of emails.
+        $last_email = $_SESSION["last_verification_email"];
+        
+        // Check if the last email was sent with at least 90 seconds between the next email.
+        if($last_email && $last_email > time() - 90) {
+            $timeRemaining = 90 - (time() - $last_email);
+            echo("Please wait $timeRemaining seconds before sending another email. <br>");
+            return false;
+        }
+
+        $_SESSION["last_verification_email"] = time();
+
         // Prepare the email template
         $emailTemplate = file_get_contents(__DIR__ . '/../Views/emails/verifyEmail.html');
         $emailTemplate = str_replace("{user_id}", $user_id, $emailTemplate);
         $emailTemplate = str_replace("{token}", $token, $emailTemplate);
 
         // Send the email to the user.
-        $resend = Resend::client('token');
+
+        $resend = Resend::client($_ENV["RESEND_API_KEY"]);
         $resend->emails->send([
             'from' => 'server@yourpet.callumc.net',
             'to' => $user_email,
