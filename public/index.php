@@ -63,14 +63,14 @@ $router->addRoute("GET", "/pets", "MyPetsController@index");
 $router->addMiddleware("/pets", "userAuth");
 
 // Admin Dashboard
-
 $router->addRoute("GET", "/admin/dashboard", "AdminDashboardController@index");
 $router->addMiddleware("/admin/dashboard", "userAuth@adminHandle");
 
 // Testing routes
 $router->addRoute("GET", "/auth/email", "AccountController@generateEmailVerificationToken");
 $router->addRoute("GET", "/auth/email/{userid}/{token}", "AccountController@verifyEmailToken");
-
+$router->addRoute("GET", "/verifyEmail", "VerifyEmailController@index");
+$router->addRoute("GET", "/auth/email/resend", "AccountController@resendEmailToken");
 
 
 // Handles the request

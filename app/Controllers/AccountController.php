@@ -4,11 +4,18 @@ require_once __DIR__ . '/../Models/AccountModel.php';
 
 class AccountController {
 
+    private $tokenService;
+
+    public function __construct() {
+        $this->tokenService = new TokenService();
+    }
+
     public function auth_user($email, $password) {
 
         // Get the users hashed password from the database
         $model = new AccountModel();
         $user = $model->checkLogin($email);
+
 
         // If the user doesnt exist, return false
         if (!$user) {
@@ -18,32 +25,35 @@ class AccountController {
 
         if (password_verify($password, $user['user_password_hash'])) {
 
+            $_SESSION["user_data"] = [
+                "id" => $user['user_id'],
+                "name" => $user['user_name'],
+                "email" => $user['user_email']
+            ];
+
             // Check if the user has verified their email, if not, generate a new token
-            // Do not assign session variables if the email is not verified.
             $user_id = $user['user_id'];
+            $user_email = $user['user_email'];
             $emailVerified = $this->checkEmailVerified($user_id);
 
             // If the email is not verified, generate a new token.
             if (!$emailVerified) {
                 $_SESSION["error"] = ["email_not_verified", "Please verify your email"];
 
-                $this->generateEmailVerificationToken($user_id);
-                echo "Email not verified, please verify your email";
-                
-                // Redirect to the email verification page
-                include(__DIR__ . '/../Views/components/testEmail.php');
+                $generatedToken = $this->tokenService->generateToken($user_id);
+                $saveSuccess = $this->tokenService->saveToken($user_id, $generatedToken);
+
+                // A token is only saved if a new token is generated. So if the token is saved, send the email.
+                if ($saveSuccess) {
+                    $this->tokenService->sendEmailVerificationToken($user_id, $user_email, $generatedToken);
+                } 
+
+                include(__DIR__ . "/../Views/verifyEmail.php");
                 exit();
 
             }
             
-            $_SESSION["user_data"] = [
-                "id" => $user['user_id'],
-                "name" => $user['user_name'],
-                "email" => $user['user_email']
-            ];
             
-
-
             return True;
 
         } else {
@@ -132,75 +142,28 @@ class AccountController {
         header("Location: /");
     }
 
-    
-    /**
-     * Generates a token for the user to verify their email
-     * Creates a new token if the user does not have one, otherwise updates the existing token.
-     * 
-     * Eventually this will send an email to the user with a link to verify their email.
-     * And the token will be deleted once the email is verified or after a certain amount of time.
-     */
-    public function generateEmailVerificationToken($user_id) {
-        echo "Generating Token <br>";
-        $token = bin2hex(random_bytes(2));
-        $model = new AccountModel();
-
-        $hasToken = $model->checkUserHasEmailVerificationToken($user_id);
-
-        if ($hasToken) {
-            echo "User already has a token, regenerating token <br>";
-            $result = $model->updateEmailVerificationToken($user_id, $token);
-        } else {
-            $result = $model->insertEmailVerificationToken($user_id, $token);
-        }
-
-    }
-
-
-    /**
-     * Verifys the users email using a token thy have provided in the URL.
-     * 
-     * @param string $providedToken
-     */
-    public function verifyEmailToken($user_id, $providedToken) {
-        $model = new AccountModel();
-        
-        if (!$providedToken || !$user_id) {
-            echo "No token provided or user id is not found";
-            exit();
-        }
-        
-
-        $verificationToken = $model->getEmailVerificationToken($user_id);
-        if (!$verificationToken) {
-            echo "Token not found";
-            exit();
-        }
-
-        if ($providedToken != $verificationToken) {
-            echo "Token does not match";
-            exit();
-        }
-
-        $userVerified = $model->verifyUserEmail($user_id);
-        if (!$userVerified) {
-            echo "Error verifying user, please contact our support team.";
-            exit();
-        }
-
-        // Take the user to the dashboard
-        echo "Email verified";
-
-
-    }
-
     public function checkEmailVerified($user_id) {
         $model = new AccountModel();
-
         $emailVerified = $model->isUserEmailVerified($user_id);
-
         return $emailVerified;    
-        
     }
+
+    public function verifyEmailToken($user_id, $providedToken) {
+        return $this->tokenService->verifyToken($user_id, $providedToken);
+    }
+
+    // Generate a new token and send it to the user
+    public function resendEmailToken() {
+
+        $user_id = $_SESSION["user_data"]["id"];
+        $user_email = $_SESSION["user_data"]["email"];
+        $generatedToken = $this->tokenService->generateToken($user_id);
+        $saveSuccess = $this->tokenService->saveToken($user_id, $generatedToken);
+
+        if ($saveSuccess) {
+            $this->tokenService->sendEmailVerificationToken($user_id, $user_email, $generatedToken);
+        } 
+        
+    } 
 
 }
