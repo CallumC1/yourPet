@@ -154,15 +154,17 @@ class AccountController {
 
     // Generate a new token and send it to the user
     public function resendEmailToken() {
-
         $user_id = $_SESSION["user_data"]["id"];
         $user_email = $_SESSION["user_data"]["email"];
         $generatedToken = $this->tokenService->generateToken($user_id);
         $saveSuccess = $this->tokenService->saveToken($user_id, $generatedToken);
-
+        
         if ($saveSuccess) {
             $this->tokenService->sendEmailVerificationToken($user_id, $user_email, $generatedToken);
-        } 
+            echo(json_encode(["success" => "Email sent"]));
+        } else {
+            echo(json_encode(["error" => "Error sending email"]));
+        }
         
     } 
 

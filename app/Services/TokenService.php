@@ -67,6 +67,8 @@ class TokenService {
         // $hasToken = $this->tokenModel->checkActiveToken($user_id);
         $hasToken = $this->checkToken($user_id);
 
+
+        // Result could be sent back as JSON to the controller?
         if ($hasToken == "NT") {
             $saveSuccess = $this->tokenModel->insertToken($user_id, $token, $tokenMade, $tokenExpires);
             return $saveSuccess;
@@ -132,7 +134,7 @@ class TokenService {
 
         // Set the last time the email was sent.
         // This is used to prevent spamming of emails.
-        $last_email = $_SESSION["last_verification_email"];
+        $last_email = $_SESSION["last_verification_email"] ?? null;
         
         // Check if the last email was sent with at least 90 seconds between the next email.
         if($last_email && $last_email > time() - 90) {
