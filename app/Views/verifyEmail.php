@@ -2,8 +2,6 @@
 $pageTitle = "YourPet - Verify Email";
 require_once( __DIR__ . "/components/header.php");
 $last_email = $_SESSION["last_verification_email"] ?? null;
-echo $last_email;
-var_dump($last_email);
 ?>
 
 <div class="w-screen h-screen ">
@@ -15,7 +13,7 @@ var_dump($last_email);
 </div>
 
 <script>
-    let seconds = 90;
+    let seconds = 5;
     let resend = document.getElementById("resend");
 
     function resendEmail() {
@@ -26,17 +24,21 @@ var_dump($last_email);
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
+                        console.log(data.status);
+                        if (data.status == "success") {
+                            resend.innerHTML = "Email sent!";
+                            resend.style.cursor = "not-allowed";
+                            seconds = 5;
+                        }
                     });
             });
     }
 
     setInterval(() => {
         seconds--;
-
         if (seconds < 0) {
             return;
         }
-
         if (seconds <= 0) {
             resendEmail();
         } else {

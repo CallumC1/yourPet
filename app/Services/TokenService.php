@@ -46,7 +46,6 @@ class TokenService {
             return "NT";
         }
             
-            
         $now = new DateTime();
         $expires_at = new DateTime($token['expires_at']);
         // If token has expired, return false
@@ -63,31 +62,32 @@ class TokenService {
         $tokenMade = date('Y-m-d H:i:s');
         $tokenExpires = date('Y-m-d H:i:s', strtotime('+30 minutes'));
 
-        // Check if the user already has a token that is active
-        // $hasToken = $this->tokenModel->checkActiveToken($user_id);
+        // Check if the user already has a token that is active.
         $hasToken = $this->checkToken($user_id);
-
 
         // Result could be sent back as JSON to the controller?
         if ($hasToken == "NT") {
             $saveSuccess = $this->tokenModel->insertToken($user_id, $token, $tokenMade, $tokenExpires);
-            return $saveSuccess;
         } elseif ($hasToken == "TE") {
             $saveSuccess = $this->tokenModel->updateToken($user_id, $token, $tokenMade, $tokenExpires);
-            return $saveSuccess;
         } else {
-            $saveSuccess = false;
-            return $saveSuccess;
+            http_response_code(500);
+            return json_encode(["status" => "error", "message" => "Invalid token status"]);
         }
 
-        // If the token was not inserted, return an error
-        if (!$saveSuccess) {
-            echo ("Error saving token");
-            exit();
-            // return false;
+        if ($saveSuccess) {
+            http_response_code(200);
+            return json_encode(["status" => "success", "message" => "Token saved successfully"]);
+        } else {
+            http_response_code(500);
+            return json_encode(["status" => "error", "message" => "Error saving token."]);
         }
     }
 
+
+    public function get_token($user_id) {
+        return $this->tokenModel->getToken($user_id);
+    }
 
 
     /**
@@ -102,7 +102,7 @@ class TokenService {
             exit();
         }
         
-        $verificationToken = $this->tokenModel->getToken($user_id);
+        $verificationToken = $this->get_token($user_id);
         if (!$verificationToken) {
             echo "Token not found";
             exit();
@@ -137,10 +137,11 @@ class TokenService {
         $last_email = $_SESSION["last_verification_email"] ?? null;
         
         // Check if the last email was sent with at least 90 seconds between the next email.
-        if($last_email && $last_email > time() - 90) {
-            $timeRemaining = 90 - (time() - $last_email);
-            echo("Please wait $timeRemaining seconds before sending another email. <br>");
-            return false;
+        // TODO: Move to own function and pass in the seconds as a parameter.
+        $seconds = 5;
+        if($last_email && $last_email > time() - $seconds) {
+            $timeRemaining = $seconds - (time() - $last_email);
+            return json_encode(["status" => "error", "message" => "Please wait $timeRemaining seconds before sending another email."]);
         }
 
         $_SESSION["last_verification_email"] = time();
@@ -153,22 +154,21 @@ class TokenService {
         // Send the email to the user.
 
         $resend = Resend::client($_ENV["RESEND_API_KEY"]);
-        $resend->emails->send([
-            'from' => 'server@yourpet.callumc.net',
-            'to' => $user_email,
-            'subject' => 'YourPet - Verify Your Email Address',
-            'html' => $emailTemplate,
-        ]);
+        try {
+            $resend->emails->send([
+                'from' => 'server@yourpet.callumc.net',
+                'to' => $user_email,
+                'subject' => 'YourPet - Verify Your Email Address',
+                'html' => $emailTemplate,
+            ]);
+            return json_encode(["status" => "success", "message" => "Email sent successfully"]);
 
-        // Check if the email was sent successfully
-        if ($resend->success) {
-            return true;
-        } else {
-            return false;
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+            echo $error;
+            return json_encode(["status" => "error", "message" => "Error sending email"]);
         }
     }
-
-
 
 
 
