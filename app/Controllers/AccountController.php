@@ -45,7 +45,7 @@ class AccountController {
 
                 $hasToken = $this->tokenService->checkToken($user_id);
                 // If token is valid, no need to generate a new token or resend the email.
-                echo $hasToken;
+                // echo $hasToken;
                 if ($hasToken == "TV") {
                     echo "User already has a valid token";
                     exit();
@@ -57,7 +57,7 @@ class AccountController {
                 $saveTknResponse = $this->tokenService->saveToken($user_id, $generatedToken);
                 $saveTknResponseObj = json_decode($saveTknResponse);
 
-                echo $saveTknResponse;
+                // echo $saveTknResponse;
                 
                 if ($saveTknResponseObj->status == "success") {
                     $sendResponse = $this->tokenService->sendEmailVerificationToken($user_id, $_SESSION["user_data"]["email"], $generatedToken);
@@ -170,16 +170,10 @@ class AccountController {
         $result =  $this->tokenService->verifyToken($user_id, $providedToken);
         if ($result) {
             $_SESSION["user_data"]["email_verified"] = 1;
+            header("Location: /dashboard");
         }
         return $result;
     }
-
-    // public function verifyEmailToken() {
-    //     $user_id = $_GET["userid"];
-    //     $providedToken = $_GET["token"];
-
-    //     return $this->tokenService->verifyToken($user_id, $providedToken);
-    // }
 
 
     // Generate a new token and send it to the user
