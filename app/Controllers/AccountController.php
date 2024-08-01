@@ -172,7 +172,6 @@ class AccountController {
             $_SESSION["user_data"]["email_verified"] = 1;
             header("Location: /dashboard");
         }
-        return $result;
     }
 
 
