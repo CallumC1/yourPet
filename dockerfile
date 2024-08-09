@@ -28,7 +28,8 @@ COPY ./public /var/www/html/public
 
 # Install Node.js dependencies
 RUN npm install
-RUN npm run build:css
+#RUN npm run build:css
+RUN npm run watch:css
 
 # Setup Composer
 COPY composer.json /var/www/html/composer.json
@@ -41,4 +42,3 @@ RUN composer require resend/resend-php
 
 # Expose port 80
 EXPOSE 80
-

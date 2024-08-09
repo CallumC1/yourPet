@@ -6,9 +6,18 @@ $last_email = $_SESSION["last_verification_email"] ?? null;
 
 <div class="w-screen h-screen ">
     <div class="flex flex-col w-96 h-full mx-auto justify-center items-center gap-5">
-        <h1 class="px-10 py-5 bg-white drop-shadow-md">Verification email sent!</h1>
-        <p class="px-10 py-5 bg-white drop-shadow-md">Please open your email app and click the button which will redirect your to verify your email automatically.</p>
-        <p id="resend">Resend email in: </p>
+        <div class="bg-white drop-shadow-md w-full px-10 py-5 text-center">
+            <a href="/" class="tracking-wide">
+                <p class="text-2xl font-bold text-emerald-600" >YourPet</p>
+                <p class="text-xs">medical experts</p>
+            </a>
+            <h1 class="">Verification link sent!</h1>
+            <p class="">Please check your emails shortly.</p>
+        </div>
+        <div class="w-full px-10 py-5 bg-white drop-shadow-md">
+            <p class="text-xs">Emails may take a few minutes to reach your inbox, If the email has not arrived click below to resend the email.</p>
+            <p class="text-xs text-gray-500 line-through pt-2" id="resend">Resend Email</p> 
+        </div>
     </div>
 </div>
 
@@ -19,6 +28,7 @@ $last_email = $_SESSION["last_verification_email"] ?? null;
     function resendEmail() {
         resend.innerHTML = "Resend email";
             resend.style.cursor = "pointer";
+            resend.style.color = "#0000EE";
             resend.addEventListener("click", () => {
                 fetch("/auth/email/resend")
                     .then(response => response.json())
@@ -42,7 +52,7 @@ $last_email = $_SESSION["last_verification_email"] ?? null;
         if (seconds <= 0) {
             resendEmail();
         } else {
-            resend.innerHTML = `Resend email in: ${seconds} seconds`;
+            resend.innerHTML = `<s>Resend Email</s>: ${seconds}`;
         }
     }, 1000);
     
