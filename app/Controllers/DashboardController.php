@@ -3,7 +3,6 @@
 class DashboardController {
     
     public function index() {
-
         require __DIR__ . '../../Views/dashboard.php';
     }
 }

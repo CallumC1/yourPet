@@ -3,8 +3,10 @@
 class userAuth {
 
     public function handle() {
+        $user_data = $_SESSION['user_data'];
+        $email_verified = $_SESSION['user_data']['email_verified'];
         // Check if user is logged in
-        if (!isset($_SESSION['user_data'])) {
+        if (!isset($user_data) || !$email_verified) {
             header("Location: /login");
             exit();
         }

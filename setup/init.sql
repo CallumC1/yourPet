@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 23, 2024 at 02:59 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: db:3306
+-- Generation Time: Jun 10, 2024 at 06:27 PM
+-- Server version: 8.4.0
+-- PHP Version: 8.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `yourpet`
+-- Database: `yourpetdb`
 --
 
 -- --------------------------------------------------------
@@ -28,9 +28,30 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categories` (
-  `category_id` int(11) NOT NULL,
-  `category_name` varchar(50) DEFAULT NULL
+  `category_id` int NOT NULL,
+  `category_name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `email_verification`
+--
+
+CREATE TABLE `email_verification` (
+  `verification_id` int NOT NULL,
+  `FK_user_id` int NOT NULL,
+  `token` varchar(32) NOT NULL,
+  `generated_at` datetime DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `email_verification`
+--
+
+INSERT INTO `email_verification` (`verification_id`, `FK_user_id`, `token`, `generated_at`, `expires_at`) VALUES
+(11, 18, 'aab420c2269dfe6952866706686ca3', '2024-06-10 14:16:51', '2024-06-10 14:46:51');
 
 -- --------------------------------------------------------
 
@@ -39,10 +60,10 @@ CREATE TABLE `categories` (
 --
 
 CREATE TABLE `orders` (
-  `order_id` int(11) NOT NULL,
-  `FK_user_id` int(11) DEFAULT NULL,
+  `order_id` int NOT NULL,
+  `FK_user_id` int DEFAULT NULL,
   `order_date` datetime DEFAULT NULL,
-  `total_price` int(6) DEFAULT NULL
+  `total_price` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -59,10 +80,10 @@ INSERT INTO `orders` (`order_id`, `FK_user_id`, `order_date`, `total_price`) VAL
 --
 
 CREATE TABLE `order_items` (
-  `order_item_id` int(11) NOT NULL,
-  `FK_order_id` int(11) DEFAULT NULL,
-  `FK_product_id` int(11) DEFAULT NULL,
-  `order_item_quantity` int(3) DEFAULT NULL,
+  `order_item_id` int NOT NULL,
+  `FK_order_id` int DEFAULT NULL,
+  `FK_product_id` int DEFAULT NULL,
+  `order_item_quantity` int DEFAULT NULL,
   `item_price` decimal(10,0) DEFAULT NULL,
   `subtotal` decimal(10,0) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -81,12 +102,12 @@ INSERT INTO `order_items` (`order_item_id`, `FK_order_id`, `FK_product_id`, `ord
 --
 
 CREATE TABLE `products` (
-  `product_id` int(11) NOT NULL,
-  `product_name` varchar(100) NOT NULL,
-  `product_description` text NOT NULL,
-  `product_type` varchar(100) NOT NULL,
+  `product_id` int NOT NULL,
+  `product_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `product_description` text COLLATE utf8mb4_general_ci NOT NULL,
+  `product_type` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `product_price` decimal(10,0) NOT NULL,
-  `product_stock` int(11) NOT NULL
+  `product_stock` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -132,8 +153,8 @@ INSERT INTO `products` (`product_id`, `product_name`, `product_description`, `pr
 --
 
 CREATE TABLE `product_categories` (
-  `FK_product_id` int(11) DEFAULT NULL,
-  `FK_category_id` int(11) DEFAULT NULL
+  `FK_product_id` int DEFAULT NULL,
+  `FK_category_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -143,19 +164,24 @@ CREATE TABLE `product_categories` (
 --
 
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL,
-  `user_name` varchar(50) NOT NULL,
-  `user_email` varchar(150) NOT NULL,
-  `user_password_hash` text NOT NULL,
-  `user_roles` varchar(50) NOT NULL DEFAULT 'user'
+  `user_id` int NOT NULL,
+  `user_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_email` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_password_hash` text COLLATE utf8mb4_general_ci NOT NULL,
+  `user_roles` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'user',
+  `email_verified` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_name`, `user_email`, `user_password_hash`, `user_roles`) VALUES
-(18, 'Callum Conacher', 'callum.mconacher@gmail.com', '$2y$10$7hG959GhWY5hvq33C5oCnuBZ9y/pm3I45BXEfIDwkk.dIqQki2TaC', 'user');
+INSERT INTO `users` (`user_id`, `user_name`, `user_email`, `user_password_hash`, `user_roles`, `email_verified`) VALUES
+(18, 'Callum Conacher', 'callum.mconacher@gmail.com', '$2y$10$7hG959GhWY5hvq33C5oCnuBZ9y/pm3I45BXEfIDwkk.dIqQki2TaC', 'user', 0),
+(19, 'admin@yourpet.local', 'admin@yourpet.local', '$2y$10$vAtQyZx09.HmSmYYyeHn1ekbvhEPemq6AkXo9dEXTsKF.EYyX3wpy', 'user', 1),
+(20, 'Test', 'test2@gmail.com', '$2y$10$YobYWOan/VTZjEeAHR3LSe4I6h2yPH8z4FU4zfkJMMO7w/LVY1Zpa', 'user', 0),
+(21, 'gdzg', 'admin@yourpet.locall', '$2y$10$CwbzPN.WMTUhgslTxAvnu.egmITMUPLF8l9uzAYGZxPOSDRzQ7/f6', 'user', 0),
+(22, 'Callum Conacher', 'emailverify@gmail.com', '$2y$10$Uxo/Dld7SZAHQUF/kWgtb.0VvREywhyCNTxmGQsgWYiP9.YIdA.TW', 'user', 1);
 
 --
 -- Indexes for dumped tables
@@ -166,6 +192,13 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_email`, `user_password_hash`,
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`category_id`);
+
+--
+-- Indexes for table `email_verification`
+--
+ALTER TABLE `email_verification`
+  ADD PRIMARY KEY (`verification_id`),
+  ADD KEY `FK_user_id` (`FK_user_id`);
 
 --
 -- Indexes for table `orders`
@@ -207,20 +240,32 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `email_verification`
+--
+ALTER TABLE `email_verification`
+  MODIFY `verification_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `product_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `email_verification`
+--
+ALTER TABLE `email_verification`
+  ADD CONSTRAINT `email_verification_ibfk_1` FOREIGN KEY (`FK_user_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `orders`
