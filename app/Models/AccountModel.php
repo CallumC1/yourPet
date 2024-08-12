@@ -7,7 +7,6 @@ class AccountModel {
         $this->db = new Database();
     }
 
-
     public function checkUserExists($email) {
         $sql = "SELECT user_email FROM users WHERE user_email = ?";
         $params = ["s", [$email]];
@@ -25,17 +24,7 @@ class AccountModel {
     }
 
 
-    public function insertRegistrationData ($name, $email, $password_hash) {
-        $sql = "INSERT INTO users (user_name, user_email, user_password_hash) VALUES (?, ?, ?)";
-        $params = ["sss", [$name, $email, $password_hash]];
-
-        $result =  $this->db->insertQuery($sql, $params);
-
-        return $result;
-    }
-
-
-    public function checkLogin($email) {
+    public function getUserbyEmail($email) {
         $sql = "SELECT * FROM users WHERE user_email = ?";
         $params = ["s", [$email]];
 

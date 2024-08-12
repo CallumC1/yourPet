@@ -13,6 +13,10 @@ function out($string) {
     echo(htmlspecialchars($string));
 }
 
+// TODO: Import a helper file with functions.
+// TODO: Import file purely for managing sessions.
+
+
 
 
 // Routing
@@ -39,7 +43,7 @@ $router->addRoute("POST", "/formSubmit", "FormController@submit");
 // Registration Routes
 $router->addRoute("GET", "/register", "RegisterController@index");
 $router->addMiddleware("/register", "checkLoggedIn");
-$router->addRoute("POST", "/registerSubmit", "AccountController@submitRegistration");
+$router->addRoute("POST", "/registerUser", "RegisterController@processRegistration");
 
 
 // Login Routes

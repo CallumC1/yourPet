@@ -16,3 +16,4 @@ $bodyClasses = isset($bodyClasses) ? $bodyClasses : "";
     <title> <?= $title; ?> </title>
 </head>
 <body class="<?= $background . ' ' . $bodyClasses?> font-Monsterrat">
+    <script src="/assets/js/master.js" defer> </script>

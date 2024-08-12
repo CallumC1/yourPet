@@ -29,8 +29,8 @@ class AccountController {
             $user_id = $user['user_id'];
             $user_email = $user['user_email'];
             $emailVerified = $this->checkEmailVerified($user_id);
- 
- 
+
+
             $_SESSION["user_data"] = [
                 "id" => $user['user_id'],
                 "name" => $user['user_name'],
@@ -82,53 +82,53 @@ class AccountController {
     }
 
     
-    public function submitRegistration() {
+    // public function submitRegistration() {
 
-        if (!isset($_POST['name']) || !isset($_POST['email']) || !isset($_POST['password'])) {
-            echo "Please enter your name, email and password";
-            header("Location: /register");
-            exit();
-        }
+    //     if (!isset($_POST['name']) || !isset($_POST['email']) || !isset($_POST['password'])) {
+    //         echo "Please enter your name, email and password";
+    //         header("Location: /register");
+    //         exit();
+    //     }
 
-        if (!isset($_POST['terms'])) {
-            $_SESSION["error"] = ["terms", "Please agree to the terms of service and privacy policy"];
+    //     if (!isset($_POST['terms'])) {
+    //         $_SESSION["error"] = ["terms", "Please agree to the terms of service and privacy policy"];
 
-            header("Location: /register");
-            exit();
-        }
+    //         header("Location: /register");
+    //         exit();
+    //     }
 
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+    //     $name = $_POST['name'];
+    //     $email = $_POST['email'];
+    //     $password = $_POST['password'];
 
-        $model = new AccountModel();
+    //     $model = new AccountModel();
 
-        // Check if the user already exists
-        if ($model->checkUserExists($email)) {
-            // Error = Type, Message 
-            $_SESSION["error"] = ["email", "User with that email already exists"];
-            header("Location: /register");
-            exit();
-        }
+    //     // Check if the user already exists
+    //     if ($model->checkUserExists($email)) {
+    //         // Error = Type, Message 
+    //         $_SESSION["error"] = ["email", "User with that email already exists"];
+    //         header("Location: /register");
+    //         exit();
+    //     }
 
-        $password_hash = password_hash($password, PASSWORD_BCRYPT);
-        $result = $model->insertRegistrationData($name, $email, $password_hash);
+    //     $password_hash = password_hash($password, PASSWORD_BCRYPT);
+    //     $result = $model->insertRegistrationData($name, $email, $password_hash);
 
-        if (!$result) {
-            echo "Registeration failed, please contact support.";
-            exit();
-        }
+    //     if (!$result) {
+    //         echo "Registeration failed, please contact support.";
+    //         exit();
+    //     }
 
-        if (!$this->auth_user($email, $password) ) {
-            echo ("Automatic Login failed, please contact support.");
-            exit();
-        }
+    //     if (!$this->auth_user($email, $password) ) {
+    //         echo ("Automatic Login failed, please contact support.");
+    //         exit();
+    //     }
 
-        // Redirect to dashboard if successful
-        header("Location: /dashboard");
-        exit();
+    //     // Redirect to dashboard if successful
+    //     header("Location: /dashboard");
+    //     exit();
 
-    }
+    // }
 
 
     public function submitLogin() {
