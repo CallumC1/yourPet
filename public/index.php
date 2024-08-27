@@ -74,10 +74,12 @@ $router->addMiddleware("/admin/dashboard", "userAuth@adminHandle");
 
 // Testing routes
 $router->addRoute("GET", "/auth/email", "AccountController@generateEmailVerificationToken");
+$router->addRoute("GET", "/auth/email/resend", "VerifyEmailController@resendEmail");
+
 $router->addRoute("GET", "/auth/email/{userid}/{token}", "VerifyEmailController@verify");
 $router->addRoute("GET", "/verifyEmail", "VerifyEmailController@index");
-$router->addRoute("GET", "/auth/email/resend", "AccountController@resendEmailToken");
 $router->addRoute("GET", "/verifiedEmail", "VerifyEmailController@verified");
+
 
 
 

@@ -3,11 +3,13 @@
 
 class VerifyEmailController {
 
-    private $tokenService;
+    private $tokenService;#
+    private $emailService;
     private $userService;
 
     public function __construct() {
         $this->tokenService = new TokenService();
+        $this->emailService = new EmailService();
         $this->userService = new UserService();
     }
 
@@ -31,9 +33,15 @@ class VerifyEmailController {
         } else {
             echo( json_encode(["type" => "error", "message" => "Invalid token"]) );
         }
-        
-        
+    }
 
+
+    public function resendEmail() {
+        if ($this->emailService->resendEmailToken() == "success") {
+            echo( json_encode(["type" => "success", "message" => "Email sent successfully"]) );
+        } else {
+            echo( json_encode(["type" => "error", "message" => "Error sending email"]) );
+        }
     }
 
 

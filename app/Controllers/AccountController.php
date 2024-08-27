@@ -10,76 +10,76 @@ class AccountController {
         $this->tokenService = new TokenService();
     }
 
-    public function auth_user($email, $password) {
+    // public function auth_user($email, $password) {
 
-        // Get the users hashed password from the database
-        $model = new AccountModel(); #### STEP DONE
-        $user = $model->checkLogin($email); #### STEP DONE
-
-
-        // If the user doesnt exist, return false
-        if (!$user) {
-            $_SESSION["error"] = ["no_user", "User with that email doesnt exist"];
-            return False;
-        }
-
-        if (password_verify($password, $user['user_password_hash'])) {
-
-            // Check if the user has verified their email.
-            $user_id = $user['user_id'];
-            $user_email = $user['user_email'];
-            $emailVerified = $this->checkEmailVerified($user_id);
+    //     // Get the users hashed password from the database
+    //     $model = new AccountModel(); #### STEP DONE
+    //     $user = $model->checkLogin($email); #### STEP DONE
 
 
-            $_SESSION["user_data"] = [
-                "id" => $user['user_id'],
-                "name" => $user['user_name'],
-                "email" => $user['user_email'],
-                "email_verified" => $emailVerified
-            ];
+    //     // If the user doesnt exist, return false
+    //     if (!$user) {
+    //         $_SESSION["error"] = ["no_user", "User with that email doesnt exist"];
+    //         return False;
+    //     }
 
-            // If the email is not verified, generate a new token.
-            if (!$emailVerified) {
-                $_SESSION["error"] = ["email_not_verified", "Please verify your email"];
-                include(__DIR__ . "/../Views/verifyEmail.php");
+    //     if (password_verify($password, $user['user_password_hash'])) {
 
-                $hasToken = $this->tokenService->checkToken($user_id);
-                // If token is valid, no need to generate a new token or resend the email.
-                // echo $hasToken;
-                if ($hasToken == "TV") {
-                    echo "User already has a valid token";
-                    exit();
-                }
+    //         // Check if the user has verified their email.
+    //         $user_id = $user['user_id'];
+    //         $user_email = $user['user_email'];
+    //         $emailVerified = $this->checkEmailVerified($user_id);
 
-                // If the token has expired or no token exists, generate a new token and send the email.
 
-                $generatedToken = $this->tokenService->generateToken($user_id);
-                $saveTknResponse = $this->tokenService->saveToken($user_id, $generatedToken);
-                $saveTknResponseObj = json_decode($saveTknResponse);
+    //         $_SESSION["user_data"] = [
+    //             "id" => $user['user_id'],
+    //             "name" => $user['user_name'],
+    //             "email" => $user['user_email'],
+    //             "email_verified" => $emailVerified
+    //         ];
 
-                // echo $saveTknResponse;
+    //         // If the email is not verified, generate a new token.
+    //         if (!$emailVerified) {
+    //             $_SESSION["error"] = ["email_not_verified", "Please verify your email"];
+    //             include(__DIR__ . "/../Views/verifyEmail.php");
+
+    //             $hasToken = $this->tokenService->checkToken($user_id);
+    //             // If token is valid, no need to generate a new token or resend the email.
+    //             // echo $hasToken;
+    //             if ($hasToken == "TV") {
+    //                 echo "User already has a valid token";
+    //                 exit();
+    //             }
+
+    //             // If the token has expired or no token exists, generate a new token and send the email.
+
+    //             $generatedToken = $this->tokenService->generateToken($user_id);
+    //             $saveTknResponse = $this->tokenService->saveToken($user_id, $generatedToken);
+    //             $saveTknResponseObj = json_decode($saveTknResponse);
+
+    //             // echo $saveTknResponse;
                 
-                if ($saveTknResponseObj->status == "success") {
-                    $sendResponse = $this->tokenService->sendEmailVerificationToken($user_id, $_SESSION["user_data"]["email"], $generatedToken);
-                    // echo $sendResponse;
-                } 
+    //             if ($saveTknResponseObj->status == "success") {
+    //                 $sendResponse = $this->tokenService->sendEmailVerificationToken($user_id, $_SESSION["user_data"]["email"], $generatedToken);
+    //                 // echo $sendResponse;
+    //             } 
 
-                $this->tokenService->sendEmailVerificationToken($user_id, $user_email, $generatedToken);
+    //             $this->tokenService->sendEmailVerificationToken($user_id, $user_email, $generatedToken);
 
-                return;
+    //             return;
 
-            }
+    //         }
             
             
-            return True;
+    //         return True;
 
-        } else {
-            // If the password is incorrect, return false
-            $_SESSION["error"] = ["incorrect_details", "Email or Password not correct"];
-            return False;
-        }
+    //     } else {
+    //         // If the password is incorrect, return false
+    //         $_SESSION["error"] = ["incorrect_details", "Email or Password not correct"];
+    //         return False;
+    //     }
 
-    }
+    // }
 
     
     // public function submitRegistration() {
@@ -176,29 +176,29 @@ class AccountController {
 
 
     // Generate a new token and send it to the user
-    public function resendEmailToken() {
-        $user_id = $_SESSION["user_data"]["id"];
+    // public function resendEmailToken() {
+    //     $user_id = $_SESSION["user_data"]["id"];
 
-        $hasToken = $this->tokenService->checkToken($user_id);
-        // If token is valid, no need to generate a new token, but we do need to resend the email.
-        if ($hasToken == "TV") {
-            echo "User already has a valid token";
-            $token = $this->tokenService->get_token($user_id);
-            $sendResponse = $this->tokenService->sendEmailVerificationToken($user_id, $_SESSION["user_data"]["email"], $token);
-            exit();            
-        }
+    //     $hasToken = $this->tokenService->checkToken($user_id);
+    //     // If token is valid, no need to generate a new token, but we do need to resend the email.
+    //     if ($hasToken == "TV") {
+    //         echo "User already has a valid token";
+    //         $token = $this->tokenService->get_token($user_id);
+    //         $sendResponse = $this->tokenService->sendEmailVerificationToken($user_id, $_SESSION["user_data"]["email"], $token);
+    //         exit();            
+    //     }
 
-        $generatedToken = $this->tokenService->generateToken($user_id);
-        $saveTknResponse = $this->tokenService->saveToken($user_id, $generatedToken);
-        $saveTknResponseObj = json_decode($saveTknResponse);
+    //     $generatedToken = $this->tokenService->generateToken($user_id);
+    //     $saveTknResponse = $this->tokenService->saveToken($user_id, $generatedToken);
+    //     $saveTknResponseObj = json_decode($saveTknResponse);
 
-        if ($saveTknResponseObj->status == "success") {
-            $sendResponse = $this->tokenService->sendEmailVerificationToken($user_id, $_SESSION["user_data"]["email"], $generatedToken);
-            echo $sendResponse;
-        } else {
-            echo $saveTknResponse;
-        }
+    //     if ($saveTknResponseObj->status == "success") {
+    //         $sendResponse = $this->tokenService->sendEmailVerificationToken($user_id, $_SESSION["user_data"]["email"], $generatedToken);
+    //         echo $sendResponse;
+    //     } else {
+    //         echo $saveTknResponse;
+    //     }
 
-    } 
+    // } 
 
 }

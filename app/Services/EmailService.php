@@ -2,6 +2,12 @@
 
 class EmailService {
 
+    private $tokenService;
+
+    public function __construct() {
+        $this->tokenService = new TokenService();
+    }
+
     public function sendEmailVerificationToken($user_id, $user_email, $token) {
 
         // Prepare the email template
@@ -28,6 +34,30 @@ class EmailService {
         }
 
     }
+
+    public function resendEmailToken() {
+        $user_id = $_SESSION["user_data"]["id"];
+
+        $hasToken = $this->tokenService->checkToken($user_id);
+        // If token is valid, no need to generate a new token, but we do need to resend the email.
+        if ($hasToken == "TV") {
+            $token = $this->tokenService->get_token($user_id);
+            $sendResponse = $this->sendEmailVerificationToken($user_id, $_SESSION["user_data"]["email"], $token);
+            return "success";
+        }
+
+        $generatedToken = $this->tokenService->generateToken();
+        $saveTknResponse = $this->tokenService->saveToken($user_id, $generatedToken);
+        $saveTknResponseObj = json_decode($saveTknResponse);
+
+        if ($saveTknResponseObj->status == "success") {
+            $sendResponse = $this->sendEmailVerificationToken($user_id, $_SESSION["user_data"]["email"], $generatedToken);
+            return "success";
+        } else {
+            return "error";
+        }
+
+    } 
 
 
 
