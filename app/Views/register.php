@@ -90,13 +90,11 @@ require_once( __DIR__ . "/components/footer.php");
         console.log(data);
 
         if (data.type === "success") {
-            window.location.href = "/dashboard";
+            window.location.href = "/verifyEmail";
         }
 
         if (data.formField) {
             generateError(data.formField, data.message);
-        } else {
-            console.log("no form field.")
         }
         
     });

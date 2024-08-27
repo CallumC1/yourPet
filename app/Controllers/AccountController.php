@@ -166,13 +166,13 @@ class AccountController {
     }
 
     // Takes two parameters, the user_id and the token provided in the URL
-    public function verifyEmailToken($user_id, $providedToken) {
-        $result =  $this->tokenService->verifyToken($user_id, $providedToken);
-        if ($result) {
-            $_SESSION["user_data"]["email_verified"] = 1;
-            header("Location: /dashboard");
-        }
-    }
+    // public function verifyEmailToken($user_id, $providedToken) {
+    //     $result =  $this->tokenService->verifyToken($user_id, $providedToken);
+    //     if ($result) {
+    //         $_SESSION["user_data"]["email_verified"] = 1;
+    //         header("Location: /dashboard");
+    //     }
+    // }
 
 
     // Generate a new token and send it to the user

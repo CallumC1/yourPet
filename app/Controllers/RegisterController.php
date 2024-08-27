@@ -76,6 +76,7 @@ class RegisterController {
         $this->UserService->SetSession($user);
 
         // After account creation, send the email verification email
+        // Should this be done when sent to the email verification page?
         $this->UserService->EmailVerification($user["user_id"], $user["user_email"]);
         exit();
 

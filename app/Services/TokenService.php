@@ -94,31 +94,29 @@ class TokenService {
      * 
      * @param string $user_id, $providedToken
      */
-    public function verifyToken($user_id, $providedToken) {
+    public function isValidToken($user_id, $providedToken) {
         
         if (!$providedToken || !$user_id) {
-            echo "No token provided or user id is not found";
-            exit();
+            return "err_no_token_provided";
         }
         
         $verificationToken = $this->get_token($user_id);
         if (!$verificationToken) {
-            echo "Token not found";
-            exit();
+            return "err_no_token";
         }
+
+        // Check if the token has expired
+        $tokenStatus = $this->checkToken($user_id);
+        if (!$tokenStatus == "TV") {
+            return "err_token_expired";
+        }
+
 
         if ($providedToken != $verificationToken) {
-            echo "Token does not match";
-            exit();
+            return "err_invalid_token";
         }
 
-        $userVerified = $this->accountModel->verifyUserEmail($user_id);
-        if (!$userVerified) {
-            echo "Error verifying user, please contact our support team.";
-            return false;
-        }
-
-        return true;
+        return "valid_token";
     }
 
 

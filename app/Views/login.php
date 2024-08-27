@@ -94,9 +94,7 @@ require_once( __DIR__ . "/components/footer.php");
 
         if (data.formField) {
             generateError(data.formField, data.message);
-        } else {
-            console.log("no form field.")
-        }
+        } 
         
     });
     

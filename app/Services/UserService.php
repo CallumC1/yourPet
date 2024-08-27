@@ -51,9 +51,13 @@ class UserService {
         }
         
 
-
         $emailService = new EmailService();
         $emailService->sendEmailVerificationToken($user_id, $email, $token);
+    }
+
+    public function VerifyUserEmail($user_id) {
+        $_SESSION["user_data"]["email_verified"] = 1;
+        return $this->accountModel->verifyUserEmail($user_id);
     }
 
 

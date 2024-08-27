@@ -1,22 +1,39 @@
 <?php
 
-require_once __DIR__ . '/../Models/AccountModel.php';
 
 class VerifyEmailController {
 
     private $tokenService;
+    private $userService;
 
     public function __construct() {
         $this->tokenService = new TokenService();
+        $this->userService = new UserService();
     }
 
     public function index() {
-
-        $tokenState = $this->tokenService->checkToken($_SESSION["user_data"]["id"]);
-
-        echo $tokenState;
-
         require_once __DIR__ . '../../Views/verifyEmail.php';
+    }
+
+    public function verified() {
+        require_once __DIR__ . '../../Views/verifiedEmail.php';
+    }
+
+    public function verify($user_id, $token) {
+
+        if ($this->tokenService->isValidToken($user_id, $token) == "valid_token") {
+            if ($this->userService->VerifyUserEmail($user_id) ) {
+                header("Location: /verifiedEmail");
+                echo( json_encode(["type" => "success", "message" => "Email verification successful"]) );
+            } else {
+                echo( json_encode(["type" => "error", "message" => "Email verification failed. Please contact support"]) );
+            }
+        } else {
+            echo( json_encode(["type" => "error", "message" => "Invalid token"]) );
+        }
+        
+        
+
     }
 
 
