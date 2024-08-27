@@ -13,8 +13,8 @@ class AccountController {
     public function auth_user($email, $password) {
 
         // Get the users hashed password from the database
-        $model = new AccountModel();
-        $user = $model->checkLogin($email);
+        $model = new AccountModel(); #### STEP DONE
+        $user = $model->checkLogin($email); #### STEP DONE
 
 
         // If the user doesnt exist, return false
@@ -131,27 +131,27 @@ class AccountController {
     // }
 
 
-    public function submitLogin() {
-        if (!isset($_POST['email']) || !isset($_POST['password'])) {
-            echo "Please enter your email and password";
-            header("Location: /login");
-            exit();
-        }
+    // public function submitLogin() {
+    //     if (!isset($_POST['email']) || !isset($_POST['password'])) {
+    //         echo "Please enter your email and password";
+    //         header("Location: /login");
+    //         exit();
+    //     }
 
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+    //     $email = $_POST['email'];
+    //     $password = $_POST['password'];
 
-        if (!$this->auth_user($email, $password)) {
-            // Error is set in the auth_user function
-            header("Location: /login");
-            exit();
-        }
+    //     if (!$this->auth_user($email, $password)) {
+    //         // Error is set in the auth_user function
+    //         header("Location: /login");
+    //         exit();
+    //     }
 
-        // Redirect to dashboard if successful
-        header("Location: /dashboard");
-        exit();
+    //     // Redirect to dashboard if successful
+    //     header("Location: /dashboard");
+    //     exit();
 
-    }
+    // }
     
 
     public function logout() {

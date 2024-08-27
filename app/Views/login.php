@@ -33,7 +33,7 @@ require_once( __DIR__ . "/components/header.php");
 
     
             <!-- FORM -->
-            <form action="/loginSubmit" method="POST" class="flex flex-col gap-6 w-full lg:w-96">
+            <form id="LoginForm" action="/loginSubmit" method="POST" class="flex flex-col gap-6 w-full lg:w-96">
 
                 <span class="flex flex-col ">
                     <label for="email" class="mb-1.5 ml-0.5">Email address</label>
@@ -46,6 +46,7 @@ require_once( __DIR__ . "/components/header.php");
                     <input type="password" name="password" placeholder="Enter a password" class="py-2 pl-3 pr-1 rounded-md border border-gray-200 ">
                 </span>
         
+                <p id="general_error" class="text-red-500 hidden"></p>
                 <input type="submit" value="Login" class="mt-8 p-4 font-semibold bg-emerald-500 hover:bg-emerald-600 rounded-md cursor-pointer transition-all duration-300">
             </form>
             <!-- END FORM -->
@@ -68,3 +69,42 @@ require_once( __DIR__ . "/components/header.php");
 <?php 
 require_once( __DIR__ . "/components/footer.php");
 ?>
+
+<script>
+    // Register form submission using fetch API
+    // To be used in the future for AJAX form submissions and smoother user experience.
+
+    const form = document.getElementById("LoginForm");
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const response = await fetch("/loginSubmit", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+        console.log(data);
+        console.log(data.type);
+
+
+        if (data.type == "success") {
+            window.location.href = "/dashboard";
+        }
+
+        if (data.formField) {
+            generateError(data.formField, data.message);
+        } else {
+            console.log("no form field.")
+        }
+        
+    });
+    
+    function generateError(formField, message) {
+        console.log("Error for:" + formField);
+        const errMsg = document.getElementById(formField + "_error");
+        errMsg.classList.remove("hidden");
+        errMsg.textContent = message;
+    }
+
+</script>

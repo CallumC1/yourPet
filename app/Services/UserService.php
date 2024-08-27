@@ -66,8 +66,25 @@ class UserService {
             "id" => $user['user_id'],
             "name" => $user['user_name'],
             "email" => $user['user_email'],
-            "email_verified" => $user['email_verified']
+            "email_verified" => $user['email_verified'] // This needs to be true for the user to log in.
         ];
+    }
+
+    public function AuthenticateUser($user_email, $password) {
+
+        $user = $this->accountModel->getUserbyEmail($user_email);
+
+        // Could return error codes which can be used to display the json response.
+        if (!$user) {
+            return "err_no_user";
+        }
+
+        if (password_verify($password, $user['user_password_hash'])) {
+            return $user;
+        } else {
+            return "err_invalid_credentials";
+        }
+
     }
 
 
