@@ -1,19 +1,18 @@
 <?php
-// Start the session
-session_start();
 
 // Entry point for the application and all its requests
+// This file is the first file that is loaded when the user visits the website.
+
+// Require session manager.
+// Ideally, this could be a class that is instantiated and used to manage sessions.
+require_once __DIR__ . '../../app/includes/sessions.php';
+
+var_dump($_SESSION["session_info"]);
 
 // Helpers
+require_once __DIR__ . '../../app/includes/helpers.php';
 
-/* Function to echo a string safely
-Should be moved to a helper file 
-*/
-function out($string) {
-    echo(htmlspecialchars($string));
-}
 
-// TODO: Import a helper file with functions.
 // TODO: Import file purely for managing sessions.
 
 
