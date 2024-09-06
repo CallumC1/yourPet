@@ -62,15 +62,17 @@ require_once(__DIR__ . "/components/footer.php");
 
     function resendVerificationEmail() {
         resendEmail.addEventListener("click", () => {
+            resendEmail.style.backgroundColor = "#e5e7eb";
+            resendEmail.style.cursor = "default";
             fetch("/auth/email/resend")
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
-                    console.log(data.status);
-                    if (data.status == "success") {
+                    console.log(data.type);
+                    if (data.type == "success") {
                         resendEmail.innerHTML = "Email sent!";
-                        seconds = 5;
                     }
+                    seconds = 5;
                 });
         });
     }
@@ -81,7 +83,9 @@ require_once(__DIR__ . "/components/footer.php");
             return;
         }
         if (seconds <= 0) {
-            resendEmail.style.backgroundColor = "rgb(46, 204, 113)";
+            resendEmail.innerHTML = "Resend Email";
+            resendEmail.style.backgroundColor = "#10b981";
+            resendEmail.style.cursor = "pointer";
             resendVerificationEmail();
             resendEmailTime.innerHTML = "";
         } else {

@@ -32,7 +32,7 @@ require_once(__DIR__ . "/components/header.php");
             <div class="flex flex-col ">
                 <p class="text-sm">Thank you for confirming your email. You may now access your dashboard.</p>
                 <div class="flex flex-col w-full py-3">
-                    <button id="goToDash" class="w-80 p-4 bg-green-500">Go to Dashboard</button>
+                    <button id="goToDash" class="w-80 p-4 bg-emerald-500">Go to Dashboard</button>
                 </div>
             </div>
         </div>
