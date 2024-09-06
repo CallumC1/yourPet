@@ -26,6 +26,9 @@ COPY router.php /var/www/html/router.php
 COPY tailwind.config.js /var/www/html/
 COPY ./public /var/www/html/public
 
+# Copy PHP ini configuration
+COPY ./php.ini /usr/local/etc/php/php.ini
+
 # Install Node.js dependencies
 RUN npm install
 #RUN npm run build:css
