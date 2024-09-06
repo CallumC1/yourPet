@@ -3,7 +3,7 @@
 
 class VerifyEmailController {
 
-    private $tokenService;#
+    private $tokenService;
     private $emailService;
     private $userService;
 
