@@ -1,5 +1,7 @@
 <?php
 
+use Ramsey\Uuid\Uuid;
+
 class UserService {
 
     private $registerModel;
@@ -17,8 +19,9 @@ class UserService {
     public function RegisterUser($name, $email, $password) {
 
         $passwordHash = $this->hashPassword($password);
+        $uuid = $this->generateUUID();
 
-        $regResult = $this->registerModel->insertRegistrationData($name, $email, $passwordHash);
+        $regResult = $this->registerModel->insertRegistrationData($uuid, $name, $email, $passwordHash);
         
         if (!$regResult) {
             error_log("User Registeration failed! Timestamp: " . date("Y-m-d H:i:s"));
@@ -30,6 +33,11 @@ class UserService {
 
     private function hashPassword($password) {
         return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    private function generateUUID() {#
+        $uuid = Uuid::uuid4();
+        return $uuid->toString();
     }
 
     public function EmailVerification($user_id, $email) {

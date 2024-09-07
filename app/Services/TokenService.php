@@ -65,6 +65,7 @@ class TokenService {
         // Check if the user already has a token that is active.
         $hasToken = $this->checkToken($user_id);
 
+
         // Result could be sent back as JSON to the controller?
         if ($hasToken == "NT") {
             $saveSuccess = $this->tokenModel->insertToken($user_id, $token, $tokenMade, $tokenExpires);
@@ -74,12 +75,12 @@ class TokenService {
 
         if ($saveSuccess) {
             // http_response_code(200);
-            // return json_encode(["status" => "success", "message" => "Token saved successfully"]);
-            return true;
+            return json_encode(["status" => "success", "message" => "Token saved successfully"]);
+            // return true;
         } else {
         //     http_response_code(500);
-        //     return json_encode(["status" => "error", "message" => "Error saving token."]);
-            return false;
+            return json_encode(["status" => "error", "message" => "Error saving token."]);
+            // return false;
         }
     }
 

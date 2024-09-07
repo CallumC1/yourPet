@@ -1,5 +1,6 @@
 {
     "require": {
-        "resend/resend-php": "dev-main"
+        "resend/resend-php": "dev-main",
+        "ramsey/uuid": "^4.7"
     }
 }

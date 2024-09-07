@@ -7,14 +7,8 @@
 // Ideally, this could be a class that is instantiated and used to manage sessions.
 require_once __DIR__ . '../../app/includes/sessions.php';
 
-
 // Helpers
 require_once __DIR__ . '../../app/includes/helpers.php';
-
-
-// TODO: Import file purely for managing sessions.
-
-
 
 
 // Routing

@@ -41,7 +41,7 @@ class AccountModel {
 
     public function getUserRole($user_id) {
         $sql = "SELECT user_roles FROM users WHERE user_id = ?";
-        $params = ["i", [$user_id]];
+        $params = ["s", [$user_id]];
 
         $result = $this->db->executeQuery($sql, $params);
 
@@ -55,7 +55,7 @@ class AccountModel {
 
     public function verifyUserEmail($user_id) {
         $sql = "UPDATE users SET email_verified = 1 WHERE user_id = ?";
-        $params = ["i", [$user_id]];
+        $params = ["s", [$user_id]];
 
         $result = $this->db->insertQuery($sql, $params);
         
@@ -65,7 +65,7 @@ class AccountModel {
 
     public function isUserEmailVerified($user_id) {
         $sql = "SELECT email_verified FROM users WHERE user_id = ?";
-        $params = ["i", [$user_id]];
+        $params = ["s", [$user_id]];
 
         $result = $this->db->executeQuery($sql, $params);
 

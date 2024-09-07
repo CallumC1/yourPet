@@ -35,10 +35,10 @@ class Router {
     public function addRoute($requestMethod, $route, $controller) {
 
         // check for {param} in route in regex
-        if (preg_match('/{[a-zA-Z0-9]+}/', $route)) {
+        if (preg_match('/{[a-zA-Z0-9-]+}/', $route)) {
 
             // Replace {param} with regex to match any string
-            $route = preg_replace('/{[a-zA-Z0-9]+}/', '([a-zA-Z0-9]+)', $route);
+            $route = preg_replace('/{[a-zA-Z0-9-]+}/', '([a-zA-Z0-9-]+)', $route);
         }
         
         $this->routes[$route] = [

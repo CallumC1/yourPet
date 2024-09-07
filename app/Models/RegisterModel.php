@@ -7,9 +7,9 @@ class RegisterModel {
         $this->db = new Database();
     }
 
-    public function insertRegistrationData ($name, $email, $password_hash) {
-        $sql = "INSERT INTO users (user_name, user_email, user_password_hash) VALUES (?, ?, ?)";
-        $params = ["sss", [$name, $email, $password_hash]];
+    public function insertRegistrationData ($uuid, $name, $email, $password_hash) {
+        $sql = "INSERT INTO users (user_id, user_name, user_email, user_password_hash) VALUES (?, ?, ?, ?)";
+        $params = ["ssss", [$uuid, $name, $email, $password_hash]];
 
         $regResult =  $this->db->insertQuery($sql, $params);
 
