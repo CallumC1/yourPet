@@ -35,14 +35,12 @@ class RegisterController {
 
     public function processRegistration() {
         if (!isset($_POST['name']) || !isset($_POST['email']) || !isset($_POST['password'])) {
-            // header("Location: /register");
             echo( json_encode(["type" => "error", "formField" => "general" , "message" => "One or more fields have not been filled out."]) );
             exit();
         }
 
         if (!isset($_POST['terms'])) {
             // $_SESSION["error"] = ["terms", "Please agree to the terms of service and privacy policy"];
-            // header("Location: /register");
             echo( json_encode(["type" => "error", "formField" => "terms", "message" => "Please agree to the terms of service and privacy policy to continue."]) );
             exit();
         }
@@ -57,7 +55,6 @@ class RegisterController {
         if ($userExists) {
             // Error = Type, Effected field, Message 
             // $_SESSION["error"] = ["email", "User with that email already exists"];
-            // header("Location: /register");
             echo( json_encode(["type" => "error", "formField" => "email", "message" => "User with that email already exists"]) );
             exit();
         }
