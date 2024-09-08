@@ -90,18 +90,16 @@ require_once( __DIR__ . "/components/footer.php");
         .then(response => response.json())
         .then(data => {
             console.log(data);
+            if (data.type == "success") {
+                window.location.href = "/verifyEmail";
+            } else if (data.type == "error") {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                } else {
+                    generateErrors(data.errors);
+                }
+            }
         })
-
-     
-
-        // if (data.type === "success") {
-        //     window.location.href = "/verifyEmail";
-        // }
-
-        // if (data.formField) {
-        //     cleanErrors();
-        //     generateError(data.formField, data.message);
-        // }
         
     });
 
@@ -114,13 +112,16 @@ require_once( __DIR__ . "/components/footer.php");
             }
         });
     }
-    
-    function generateError(formField, message) {
-        let errMsg = document.getElementById(formField + "_error");
-        if (errMsg.classList.contains("hidden")) {
-            errMsg.classList.remove("hidden");
+
+    function generateErrors(errors) {
+        cleanErrors();
+        for (const [field, message] of Object.entries(errors)) {
+            let errMsg = document.getElementById(field + "_error");
+            if (errMsg.classList.contains("hidden")) {
+                errMsg.classList.remove("hidden");
+            }
+            errMsg.textContent = message;
         }
-        errMsg.textContent = message;
     }
 
 </script>

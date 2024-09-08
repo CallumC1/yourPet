@@ -1,13 +1,16 @@
 <?php
 
 namespace App\Controllers;
+use App\Utils\ValidatorUtil;
 use App\Services\UserService;
 
 class LoginController {
 
     private $UserService;
+    private $Validator;
 
     public function __construct() {
+        $this->Validator = new ValidatorUtil();
         $this->UserService = new UserService();
     }
     
@@ -16,13 +19,20 @@ class LoginController {
     }
 
     public function processLogin(){
-        if (!isset($_POST['email']) || !isset($_POST['password'])) {
-            echo( json_encode(["type" => "error", "formField" => "general", "message" => "Email or password was not submitted."]) );
+        $email = $_POST['email'] ?? null;
+        $password = $_POST['password'] ?? null;
+
+        $this->Validator->validateRequired("email", $email, "Email is required.");
+        $this->Validator->validateRequired("password", $password, "Password is required.");
+        
+        if ($this->Validator->hasErrors()) {
+            echo (json_encode([
+                "type" => "error",
+                "errors" => $this->Validator->getErrors()
+            ]));
             exit();
         }
 
-        $email = $_POST['email'];
-        $password = $_POST['password'];
 
         $authResponse = $this->UserService->AuthenticateUser($email, $password);
         if ($authResponse->status == "error") {

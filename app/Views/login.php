@@ -93,10 +93,10 @@ require_once( __DIR__ . "/components/footer.php");
                 if (data.redirect) {
                     window.location.href = data.redirect;
                 } else {
-                    generateError(data.formField, data.message);
+                    generateErrors(data.errors);
                 }
             }
-        }); 
+        })
     });
     
     // Removes all error messages from the form fields.
@@ -108,13 +108,16 @@ require_once( __DIR__ . "/components/footer.php");
             }
         });
     }
-    
-    function generateError(formField, message) {
-        let errMsg = document.getElementById(formField + "_error");
-        if (errMsg.classList.contains("hidden")) {
-            errMsg.classList.remove("hidden");
+
+    function generateErrors(errors) {
+        cleanErrors();
+        for (const [field, message] of Object.entries(errors)) {
+            let errMsg = document.getElementById(field + "_error");
+            if (errMsg.classList.contains("hidden")) {
+                errMsg.classList.remove("hidden");
+            }
+            errMsg.textContent = message;
         }
-        errMsg.textContent = message;
     }
 
 </script>
