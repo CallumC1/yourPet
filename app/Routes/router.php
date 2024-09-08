@@ -127,7 +127,7 @@ class router {
         // If route not found, handle 404 error
         if (!$routeFound) {
             http_response_code(404);
-            require_once (__DIR__ . '/app/Views/404.php');
+            require_once __DIR__ . '/../Views/404.php';
         }
     }
 }

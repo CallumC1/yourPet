@@ -29,13 +29,7 @@ require_once( __DIR__ . "/../components/navbar.php");
         
         <!-- Pet cards -->
         <?php
-        include("components/petCard.php");
-        include("components/petCard.php");
-        include("components/petCard.php");
-        include("components/petCard.php");
-        include("components/petCard.php");
-        include("components/petCard.php");
-        include("components/petCard.php");
+        include(__DIR__ . "/../components/petCard.php");
         ?>
     
     

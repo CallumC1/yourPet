@@ -47,7 +47,7 @@ require_once( __DIR__ . "/../components/navbar.php");
 
         foreach ($cards as $card) {
             extract($card);
-            include(__DIR__ . "/components/dashboardCard.php");
+            include(__DIR__ . "/../components/dashboardCard.php");
         };
         ?>
 
