@@ -9,7 +9,6 @@ services:
       - "8082:80"
     volumes:
       - ./public:/var/www/html/public
-      # - ./router.php:/var/www/html/router.php # Moved into the app directory
       - ./app:/var/www/html/app
       - ./apache/vhost.conf:/etc/apache2/sites-available/000-default.conf
       - ./composer.json:/var/www/html/composer.json

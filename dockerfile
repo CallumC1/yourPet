@@ -22,7 +22,6 @@ RUN a2enmod rewrite
 # Copy the application files to the container
 COPY ./app /var/www/html/app
 COPY package.json /var/www/html/package.json
-# COPY router.php /var/www/html/router.php # Moved into app folder.
 COPY tailwind.config.js /var/www/html/
 COPY ./public /var/www/html/public
 
@@ -31,7 +30,7 @@ COPY ./php.ini /usr/local/etc/php/php.ini
 
 # Install Node.js dependencies
 RUN npm install
-#RUN npm run build:css
+#RUN npm run build:css # For Production
 RUN npm run watch:css
 
 # Setup Composer
