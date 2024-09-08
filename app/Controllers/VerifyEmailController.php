@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controllers;
+use App\Services\TokenService;
+use App\Services\EmailService;
+use App\Services\UserService;
 
 class VerifyEmailController {
 

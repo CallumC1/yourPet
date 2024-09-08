@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Controllers;
+use App\Models\ProductsModel;
+
 require_once __DIR__ . '/../Models/ProductsModel.php';
 
 class ProductsController {

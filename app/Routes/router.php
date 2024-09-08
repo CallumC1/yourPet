@@ -1,31 +1,9 @@
 <?php
 
+namespace App\Routes;
 
+class router {
 
-// Imports that are not autoloaded.
-require_once (__DIR__ . '/app/includes/Database.php');
-
-// Autoloads classes and middleware
-spl_autoload_register(function ($class) {
-    $controllerPath =  __DIR__ . '/app/Controllers/' . $class . '.php';
-    $middlewarePath = __DIR__ . '/app/Middleware/' . $class . '.php';
-    $modelPath =  __DIR__ . '/app/Models/' . $class . '.php';
-    $servicePath =  __DIR__ . '/app/Services/' . $class . '.php';
-
-    if (file_exists($controllerPath)) {
-        require_once $controllerPath;
-    } else if (file_exists($middlewarePath)) {
-        require_once $middlewarePath;
-    } else if (file_exists($modelPath)) {
-        require_once $modelPath;
-    } else if (file_exists($servicePath)) {
-        require_once $servicePath;
-    }
-});
-
-require __DIR__ . '/vendor/autoload.php';
-
-class Router {
     protected $routes = [];
     protected $middleware = [];
 
@@ -33,6 +11,7 @@ class Router {
     // Middleware is optional
 
     public function addRoute($requestMethod, $route, $controller) {
+        $controller = "App\\Controllers\\" . $controller;
 
         // check for {param} in route in regex
         if (preg_match('/{[a-zA-Z0-9-]+}/', $route)) {
@@ -55,7 +34,7 @@ class Router {
         // When middleware is added, check the string for an @ symbol to split the middleware and method apart.
         // If no method is provided, default to handle.
         $method = explode("@", $middleware);
-        $middleware = $method[0];
+        $middleware = "App\\Middleware\\" . $method[0];
         $methodName = $method[1] ?? "handle";
 
 

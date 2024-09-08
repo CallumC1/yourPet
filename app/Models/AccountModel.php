@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Models;
+use App\Includes\Database;
+
 class AccountModel {
     private $db;
     

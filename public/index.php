@@ -1,7 +1,11 @@
 <?php
-
 // Entry point for the application and all its requests
 // This file is the first file that is loaded when the user visits the website.
+
+// Use Composer's autoloader to autoload classes
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use App\Routes\Router;
 
 // Require session manager.
 // Ideally, this could be a class that is instantiated and used to manage sessions.
@@ -10,10 +14,6 @@ require_once __DIR__ . '../../app/includes/sessions.php';
 // Helpers
 require_once __DIR__ . '../../app/includes/helpers.php';
 
-
-// Routing
-
-require_once __DIR__ . '../../router.php';
 
 $router = new Router();
 
@@ -65,8 +65,8 @@ $router->addRoute("GET", "/admin/dashboard", "AdminDashboardController@index");
 $router->addMiddleware("/admin/dashboard", "userAuth@adminHandle");
 
 // Testing routes
-$router->addRoute("GET", "/auth/email", "AccountController@generateEmailVerificationToken");
-$router->addRoute("GET", "/auth/email/resend", "VerifyEmailController@resendEmail");
+$router->addRoute("GET", "/auth/email", "AccountController@generateEmailVerificationToken"); //Should be POST?
+$router->addRoute("GET", "/auth/email/resend", "VerifyEmailController@resendEmail"); //Should be POST.
 
 $router->addRoute("GET", "/auth/email/{userid}/{token}", "VerifyEmailController@verify");
 $router->addRoute("GET", "/verifyEmail", "VerifyEmailController@index");

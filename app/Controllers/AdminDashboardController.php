@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class AdminDashboardController {
     
     public function index() {

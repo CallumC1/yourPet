@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Controllers;
+use App\Models\FormModel;
+
 require_once __DIR__ . '/../Models/FormModel.php';
 
 class FormController {

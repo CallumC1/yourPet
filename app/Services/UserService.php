@@ -1,6 +1,22 @@
 <?php
+namespace App\Services;
+use App\Models\RegisterModel;
+use App\Models\AccountModel;
+
 
 use Ramsey\Uuid\Uuid;
+
+class AuthResponse {
+    public $status;
+    public $message;
+    public $user;
+
+    public function __construct($status, $message, $user = null) {
+        $this->status = $status;
+        $this->message = $message;
+        $this->user = $user;
+    }
+}
 
 class UserService {
 
@@ -83,19 +99,23 @@ class UserService {
     }
 
     public function AuthenticateUser($user_email, $password) {
-
         $user = $this->accountModel->getUserbyEmail($user_email);
-
-        // Could return error codes which can be used to display the json response.
+        // For security reasons, we shouldnt return at this point as the timing of the response can be used to determine if the email exists.
         if (!$user) {
-            return "err_no_user";
+            return new AuthResponse("error", "no_user");
         }
 
-        if (password_verify($password, $user['user_password_hash'])) {
-            return $user;
-        } else {
-            return "err_invalid_credentials";
+        // Check if the users password matches the hash.
+        if (!password_verify($password, $user['user_password_hash'])) {
+            return new AuthResponse("error", "invalid_credentials");
         }
+
+        if ($user['email_verified'] != 1) {
+            return new AuthResponse("error", "email_not_verified", $user);
+        }
+
+        // If all checks pass, return the user data as success.
+        return new AuthResponse("success", "User Authenticated", $user);
 
     }
 

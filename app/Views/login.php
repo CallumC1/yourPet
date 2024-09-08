@@ -38,12 +38,13 @@ require_once( __DIR__ . "/components/header.php");
                 <span class="flex flex-col ">
                     <label for="email" class="mb-1.5 ml-0.5">Email address</label>
                     <input type="email" name="email" placeholder="Your email address" autofocus class="py-2 pl-3 pr-1 border rounded-md border-gray-200">
-                    <p class="text-red-500"><?= $error_no_user ?></p>
+                    <p id="email_error" class="text-red-500 hidden"></p>
                 </span>
         
                 <span class="flex flex-col ">
                     <label for="password" class="mb-1.5 ml-0.5">Password</label>
                     <input type="password" name="password" placeholder="Enter a password" class="py-2 pl-3 pr-1 rounded-md border border-gray-200 ">
+                    <p id="password_error" class="text-red-500 hidden"></p>
                 </span>
         
                 <p id="general_error" class="text-red-500 hidden"></p>
@@ -78,30 +79,41 @@ require_once( __DIR__ . "/components/footer.php");
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const formData = new FormData(form);
+
         const response = await fetch("/loginSubmit", {
             method: "POST",
             body: formData
-        });
-
-        const data = await response.json();
-        console.log(data);
-        console.log(data.type);
-
-
-        if (data.type == "success") {
-            window.location.href = "/dashboard";
-        }
-
-        if (data.formField) {
-            generateError(data.formField, data.message);
-        } 
-        
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.type == "success") {
+                window.location.href = "/dashboard";
+            } else if (data.type == "error") {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                } else {
+                    generateError(data.formField, data.message);
+                }
+            }
+        }); 
     });
     
+    // Removes all error messages from the form fields.
+    function cleanErrors() {
+        let errors = document.querySelectorAll(".text-red-500");
+        errors.forEach((error) => {
+            if (!error.classList.contains("hidden")) {
+                error.classList.add("hidden");
+            }
+        });
+    }
+    
     function generateError(formField, message) {
-        console.log("Error for:" + formField);
-        const errMsg = document.getElementById(formField + "_error");
-        errMsg.classList.remove("hidden");
+        let errMsg = document.getElementById(formField + "_error");
+        if (errMsg.classList.contains("hidden")) {
+            errMsg.classList.remove("hidden");
+        }
         errMsg.textContent = message;
     }
 

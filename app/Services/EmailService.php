@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Services;
+use Resend;
+
 class EmailService {
 
     private $tokenService;
@@ -18,7 +21,6 @@ class EmailService {
     
 
         // Send the email to the user.
-
         $resend = Resend::client($_ENV["RESEND_API_KEY"]);
     
         try {
@@ -28,11 +30,13 @@ class EmailService {
                 'subject' => 'YourPet - Verify Your Email Address',
                 'html' => $emailTemplate,
             ]);
-            return json_encode(["status" => "success", "message" => "Email sent successfully"]);
+            error_log("Email sent to: " . $user_email);
+            return true;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error = $e->getMessage();
-            return json_encode(["status" => "error", "message" => "Error sending email"]);
+            error_log("Failed to send email: " . $error);
+            return false;
         }
 
     }

@@ -1,6 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../Models/AccountModel.php';
+namespace App\Controllers;
+
+use App\Services\TokenService;
+use App\Models\AccountModel;
+
+
+require_once __DIR__ . '/../Models/AccountModel.php'; // OUTDATED, use the new namespace & class
 
 class AccountController {
 

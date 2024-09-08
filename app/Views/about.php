@@ -6,7 +6,7 @@ require_once( __DIR__ . "/components/navbar.php");
 
 ?>
 
-Home Page. <br>
+About Page. <br>
 
 <?php
 out("<script>alert('Hello, World!');</script>");

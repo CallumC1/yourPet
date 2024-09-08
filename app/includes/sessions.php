@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Includes;
+
 session_start();
 
 if (!isset($_SESSION["session_info"]["last_regen"])) {

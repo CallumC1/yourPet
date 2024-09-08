@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Controllers;
+
+
 class MyPetsController {
     
     public function index() {
