@@ -4,7 +4,7 @@
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "build:css": "npx tailwindcss build -i ./app/css/input.css -o ./public/assets/output.css --minify",
-    "watch:css": "npx tailwindcss -i ./app/css/input.css -o ./public/assets/output.css --watch"
+    "build:css": "npx tailwindcss build -i ./public/assets/css/input.css -o ./public/assets/output.css --minify",
+    "watch:css": "npx tailwindcss -i ./public/assets/css/input.css -o ./public/assets/output.css --watch"
   }
 }

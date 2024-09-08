@@ -1,6 +1,6 @@
 <?php
 $pageTitle = "YourPet - Verify Email";
-require_once(__DIR__ . "/components/header.php");
+require_once(__DIR__ . "/../components/header.php");
 $last_email = $_SESSION["last_verification_email"] ?? null;
 ?>
 
@@ -51,7 +51,7 @@ require_once(__DIR__ . "/components/header.php");
 
 
 <?php
-require_once(__DIR__ . "/components/footer.php");
+require_once(__DIR__ . "/../components/footer.php");
 ?>
 
 <script>

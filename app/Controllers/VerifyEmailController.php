@@ -18,11 +18,11 @@ class VerifyEmailController {
     }
 
     public function index() {
-        require_once __DIR__ . '../../Views/verifyEmail.php';
+        require_once __DIR__ . '../../Views/auth/verifyEmail.php';
     }
 
     public function verified() {
-        require_once __DIR__ . '../../Views/verifiedEmail.php';
+        require_once __DIR__ . '../../Views/auth/verifiedEmail.php';
     }
 
     public function verify($user_id, $token) {
