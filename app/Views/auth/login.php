@@ -86,7 +86,6 @@ require_once( __DIR__ . "/../components/footer.php");
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             if (data.type == "success") {
                 window.location.href = "/dashboard";
             } else if (data.type == "error") {
