@@ -55,8 +55,7 @@ class RegisterController {
             // Error = Type, Effected field, Message 
             echo( json_encode([
                 "type" => "error", 
-                "formField" => "email", 
-                "message" => "User with that email already exists"
+                "errors" => array("email" => "User with that email already exists.")
                 ]));
             exit();
         }
@@ -66,7 +65,7 @@ class RegisterController {
         if (!$regResult) {
             echo( json_encode([
                 "type" => "error", 
-                "message" => "Registeration failed, please contact support."
+                "errors" => array("general" => "Registeration failed, please contact support.")
                 ]));
             exit();
         }
