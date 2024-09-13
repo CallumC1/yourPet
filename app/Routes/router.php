@@ -118,6 +118,7 @@ class router {
             } else {
                 $controllerName->$methodName();
             }
+            var_dump($_SESSION);
 
             // Exit the loop if route is founds
             exit();

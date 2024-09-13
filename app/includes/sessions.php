@@ -31,7 +31,6 @@ if (!isset($_SESSION["session_info"]["last_regen"])) {
     $time_diff = $current_time - $last_regen;
     if ($time_diff > 1800) {
         session_regenerate_id();
-        echo "regenerated token";
         $_SESSION["session_info"]["last_regen"] = time();
     }
 }

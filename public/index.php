@@ -14,7 +14,6 @@ require_once __DIR__ . '../../app/includes/sessions.php';
 // Helpers
 require_once __DIR__ . '../../app/includes/helpers.php';
 
-
 $router = new Router();
 
 $uri = $_SERVER['REQUEST_URI'];
