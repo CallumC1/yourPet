@@ -29,10 +29,11 @@ class VerifyEmailController {
 
         if ($this->tokenService->isValidToken($user_id, $token) == "valid_token") {
             if ($this->userService->VerifyUserEmail($user_id) ) {
-                header("Location: /verifiedEmail"); #Should be moved to JS routing
                 echo( json_encode(["type" => "success", "message" => "Email verification successful"]) );
+                header("Location: /verifiedEmail"); # This could be in JS, but the user would have to be taken to a page.
             } else {
                 echo( json_encode(["type" => "error", "message" => "Email verification failed. Please contact support"]) );
+                header("Location: /verifiedEmail?error=email_verification_failed"); # This could be in JS, but the user would have to be taken to a page.
             }
         } else {
             echo( json_encode(["type" => "error", "message" => "Invalid token"]) );

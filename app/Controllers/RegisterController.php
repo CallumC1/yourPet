@@ -88,9 +88,5 @@ class RegisterController {
         exit();
 
     }
-
-    public function sendVerificationEmail() {
-
-    }
     
 }

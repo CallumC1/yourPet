@@ -46,6 +46,7 @@ class router {
 
 
     public function handleRequest($URI, $method) {
+        session_start();
 
         $seperatedURI = explode("?", $URI);
         $URIParams = $seperatedURI[1] ?? null; 
@@ -118,7 +119,6 @@ class router {
             } else {
                 $controllerName->$methodName();
             }
-            var_dump($_SESSION);
 
             // Exit the loop if route is founds
             exit();

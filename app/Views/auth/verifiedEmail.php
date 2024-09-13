@@ -18,9 +18,15 @@ require_once(__DIR__ . "/../components/header.php");
             <img src="/assets/images/dog-and-woman.jpg" alt="" class="h-full object-cover">
         </div>
 
-        <div class="flex flex-col justify-center max-w-lg w-full h-full ">      
-            <h2 class="text-2xl mb-4">Your email has been verified!</h2>
-            <p>Thank you...</p>
+        <div class="flex flex-col justify-center max-w-lg w-full h-full ">
+
+        <?php if(isset($_GET["error"])) :  ?>
+                <h2 class="text-2xl mb-4">Error verifying email</h2>
+                <p><?= $_GET["error"] ?>: Please contact support</p>
+            <?php else: ?>
+                <h2 class="text-2xl mb-4">Your email has been verified!</h2>
+                <p>Thank you...</p>
+            <?php endif; ?>
 
             <div class="flex flex-col ">
                 <p class="text-sm">Thank you for confirming your email. You may now access your dashboard.</p>
