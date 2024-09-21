@@ -1,11 +1,18 @@
 <?php
 
 namespace App\Routes;
+use App\Services\SessionService;
 
 class router {
 
     protected $routes = [];
     protected $middleware = [];
+    private $SessionService;
+
+    public function __construct()
+    {
+        $this->SessionService = new SessionService();
+    }
 
     // REQUEST METHOD, ROUTE, CONTROLLER
     // Middleware is optional
@@ -46,7 +53,7 @@ class router {
 
 
     public function handleRequest($URI, $method) {
-        session_start();
+        $this->SessionService->start();
 
         $seperatedURI = explode("?", $URI);
         $URIParams = $seperatedURI[1] ?? null; 
@@ -83,6 +90,7 @@ class router {
             };
 
             // If the request method does not match the route method, handle 405 error
+            // Maybe in the future we could get what the method is calling and call a different function depending on the header of the POST Request
             if ($data["requestMethod"] != $method) {
                 http_response_code(405);
                 // ! Allowed methods should not be displayed in production.

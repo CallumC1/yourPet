@@ -3,7 +3,6 @@
 namespace App\Includes;
 
 session_start();
-$_SESSION["test"] = "tester1";
 
 // if (!isset($_SESSION["session_info"]["last_regen"])) {
 //     // First time session is created

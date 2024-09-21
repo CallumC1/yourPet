@@ -29,6 +29,11 @@ class VerifyEmailController {
 
         if ($this->tokenService->isValidToken($user_id, $token) == "valid_token") {
             if ($this->userService->VerifyUserEmail($user_id) ) {
+
+                if ($_SESSION["user_data"]["id"] == $user_id) {
+                    $_SESSION["user_data"]["email_verified"] = 1;
+                }
+
                 echo( json_encode(["type" => "success", "message" => "Email verification successful"]) );
                 header("Location: /verifiedEmail"); # This could be in JS, but the user would have to be taken to a page.
             } else {

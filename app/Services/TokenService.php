@@ -117,6 +117,7 @@ class TokenService {
         }
 
 
+        // die($providedToken .  " ||| " . $verificationToken);
         if ($providedToken != $verificationToken) {
             return "err_invalid_token";
         }
