@@ -20,7 +20,7 @@ COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 RUN a2enmod rewrite
 
 # Copy the application files to the container
-COPY ./app /var/www/html/app
+COPY ./App /var/www/html/App
 COPY package.json /var/www/html/package.json
 COPY tailwind.config.js /var/www/html/
 COPY ./public /var/www/html/public
