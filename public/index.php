@@ -12,7 +12,7 @@ use App\Routes\Router;
 // Ideally, this could be a class that is instantiated and used to manage sessions.
 
 // Helpers
-require_once __DIR__ . '../../App/includes/helpers.php';
+require_once __DIR__ . '../../App/Includes/helpers.php';
 
 $router = new Router();
 
