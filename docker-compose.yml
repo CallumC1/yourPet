@@ -14,7 +14,7 @@ services:
     depends_on:
       - yourpet-db
     environment:
-      - MYSQL_HOST=db
+      - MYSQL_HOST=yourpet-db
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
