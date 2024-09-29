@@ -41,9 +41,5 @@ RUN composer require resend/resend-php
 # Reload Autoloader
 RUN composer dump-autoload
 
-
-
-
-
 # Expose port 80
 EXPOSE 80
