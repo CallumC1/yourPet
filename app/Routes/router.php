@@ -1,44 +1,30 @@
 <?php
 
+namespace App\Routes;
+use App\Services\SessionService;
 
+class router {
 
-// Imports that are not autoloaded.
-require_once (__DIR__ . '/app/includes/Database.php');
-
-// Autoloads classes and middleware
-spl_autoload_register(function ($class) {
-    $controllerPath =  __DIR__ . '/app/Controllers/' . $class . '.php';
-    $middlewarePath = __DIR__ . '/app/Middleware/' . $class . '.php';
-    $modelPath =  __DIR__ . '/app/Models/' . $class . '.php';
-    $servicePath =  __DIR__ . '/app/Services/' . $class . '.php';
-
-    if (file_exists($controllerPath)) {
-        require_once $controllerPath;
-    } else if (file_exists($middlewarePath)) {
-        require_once $middlewarePath;
-    } else if (file_exists($modelPath)) {
-        require_once $modelPath;
-    } else if (file_exists($servicePath)) {
-        require_once $servicePath;
-    }
-});
-
-require __DIR__ . '/vendor/autoload.php';
-
-class Router {
     protected $routes = [];
     protected $middleware = [];
+    private $SessionService;
+
+    public function __construct()
+    {
+        $this->SessionService = new SessionService();
+    }
 
     // REQUEST METHOD, ROUTE, CONTROLLER
     // Middleware is optional
 
     public function addRoute($requestMethod, $route, $controller) {
+        $controller = "App\\Controllers\\" . $controller;
 
         // check for {param} in route in regex
-        if (preg_match('/{[a-zA-Z0-9]+}/', $route)) {
+        if (preg_match('/{[a-zA-Z0-9-]+}/', $route)) {
 
             // Replace {param} with regex to match any string
-            $route = preg_replace('/{[a-zA-Z0-9]+}/', '([a-zA-Z0-9]+)', $route);
+            $route = preg_replace('/{[a-zA-Z0-9-]+}/', '([a-zA-Z0-9-]+)', $route);
         }
         
         $this->routes[$route] = [
@@ -55,7 +41,7 @@ class Router {
         // When middleware is added, check the string for an @ symbol to split the middleware and method apart.
         // If no method is provided, default to handle.
         $method = explode("@", $middleware);
-        $middleware = $method[0];
+        $middleware = "App\\Middleware\\" . $method[0];
         $methodName = $method[1] ?? "handle";
 
 
@@ -67,6 +53,7 @@ class Router {
 
 
     public function handleRequest($URI, $method) {
+        $this->SessionService->start();
 
         $seperatedURI = explode("?", $URI);
         $URIParams = $seperatedURI[1] ?? null; 
@@ -103,6 +90,7 @@ class Router {
             };
 
             // If the request method does not match the route method, handle 405 error
+            // Maybe in the future we could get what the method is calling and call a different function depending on the header of the POST Request
             if ($data["requestMethod"] != $method) {
                 http_response_code(405);
                 // ! Allowed methods should not be displayed in production.
@@ -148,7 +136,7 @@ class Router {
         // If route not found, handle 404 error
         if (!$routeFound) {
             http_response_code(404);
-            require_once (__DIR__ . '/app/Views/404.php');
+            require_once __DIR__ . '/../Views/404.php';
         }
     }
 }

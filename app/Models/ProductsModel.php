@@ -1,4 +1,6 @@
 <?php
+namespace App\Models;
+use App\Includes\Database;
 
 class ProductsModel {
     private $db;

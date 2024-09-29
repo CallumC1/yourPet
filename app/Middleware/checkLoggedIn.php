@@ -1,10 +1,17 @@
 <?php
+namespace App\Middleware;
 
-class checkLoggedin {
+class checkLoggedIn {
 
     public function handle() {
         // Check if user is logged in
-        if (isset($_SESSION['user_data']) && $_SESSION['user_data']['email_verified']) {
+        if (isset($_SESSION['user_data'])) {
+
+            if (!isset($_SESSION['user_data']['email_verified'])) {
+                header("Location: /verifyEmail");
+                exit();
+            }
+
             header("Location: /dashboard");
             exit();
         }

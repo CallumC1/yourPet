@@ -1,12 +1,14 @@
 <?php
 
+namespace App\Models;
+use App\Includes\Database;
+
 class AccountModel {
     private $db;
     
     public function __construct() {
         $this->db = new Database();
     }
-
 
     public function checkUserExists($email) {
         $sql = "SELECT user_email FROM users WHERE user_email = ?";
@@ -25,17 +27,7 @@ class AccountModel {
     }
 
 
-    public function insertRegistrationData ($name, $email, $password_hash) {
-        $sql = "INSERT INTO users (user_name, user_email, user_password_hash) VALUES (?, ?, ?)";
-        $params = ["sss", [$name, $email, $password_hash]];
-
-        $result =  $this->db->insertQuery($sql, $params);
-
-        return $result;
-    }
-
-
-    public function checkLogin($email) {
+    public function getUserbyEmail($email) {
         $sql = "SELECT * FROM users WHERE user_email = ?";
         $params = ["s", [$email]];
 
@@ -52,7 +44,7 @@ class AccountModel {
 
     public function getUserRole($user_id) {
         $sql = "SELECT user_roles FROM users WHERE user_id = ?";
-        $params = ["i", [$user_id]];
+        $params = ["s", [$user_id]];
 
         $result = $this->db->executeQuery($sql, $params);
 
@@ -66,7 +58,7 @@ class AccountModel {
 
     public function verifyUserEmail($user_id) {
         $sql = "UPDATE users SET email_verified = 1 WHERE user_id = ?";
-        $params = ["i", [$user_id]];
+        $params = ["s", [$user_id]];
 
         $result = $this->db->insertQuery($sql, $params);
         
@@ -76,7 +68,7 @@ class AccountModel {
 
     public function isUserEmailVerified($user_id) {
         $sql = "SELECT email_verified FROM users WHERE user_id = ?";
-        $params = ["i", [$user_id]];
+        $params = ["s", [$user_id]];
 
         $result = $this->db->executeQuery($sql, $params);
 

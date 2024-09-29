@@ -1,8 +1,8 @@
 
 <!-- A page title can be set here or leave blank for default. -->
 <?php $pageTitle = "User Dashboard";
-require_once( __DIR__ . "/components/header.php");
-require_once( __DIR__ . "/components/navbar.php");
+require_once( __DIR__ . "/../components/header.php");
+require_once( __DIR__ . "/../components/navbar.php");
 ?>
 
 
@@ -47,7 +47,7 @@ require_once( __DIR__ . "/components/navbar.php");
 
         foreach ($cards as $card) {
             extract($card);
-            include(__DIR__ . "/components/dashboardCard.php");
+            include(__DIR__ . "/../components/dashboardCard.php");
         };
         ?>
 
@@ -56,5 +56,5 @@ require_once( __DIR__ . "/components/navbar.php");
 </div>
 
 <?php 
-require_once( __DIR__ . "/components/footer.php");
+require_once( __DIR__ . "/../components/footer.php");
 ?>

@@ -1,4 +1,6 @@
 <?php
+namespace App\Models;
+use App\Includes\Database;
 
 class TokenModel {
     private $db;
@@ -11,7 +13,7 @@ class TokenModel {
     // Check if a token for the user exists already
     public function checkActiveToken($user_id) {
         $sql = "SELECT generated_at, expires_at FROM email_verification WHERE FK_user_id = ?";
-        $params = ["i", [$user_id]];
+        $params = ["s", [$user_id]];
 
         $result = $this->db->executeQuery($sql, $params);
 
@@ -27,7 +29,7 @@ class TokenModel {
     public function insertToken($user_id, $token, $generated_at, $expires_at) {
         
         $sql = "INSERT INTO email_verification (FK_user_id, token, generated_at, expires_at) VALUES (?, ?, ?, ?)";
-        $params = ["isss", [$user_id, $token, $generated_at, $expires_at]];
+        $params = ["ssss", [$user_id, $token, $generated_at, $expires_at]];
         
         $result = $this->db->insertQuery($sql, $params);
         
@@ -38,7 +40,7 @@ class TokenModel {
     // If a token exists, just update the token
     public function updateToken($user_id, $token, $generated_at, $expires_at) {
         $sql = "UPDATE email_verification SET token = ?, generated_at = ?, expires_At = ? WHERE FK_user_id = ?";
-        $params = ["sssi", [$token, $generated_at, $expires_at, $user_id]];
+        $params = ["ssss", [$token, $generated_at, $expires_at, $user_id]];
 
         $result = $this->db->insertQuery($sql, $params);
 
@@ -58,7 +60,7 @@ class TokenModel {
     public function getToken($user_id) {
         
         $sql = "SELECT token FROM email_verification WHERE FK_user_id = ?";
-        $params = ["i", [$user_id]];
+        $params = ["s", [$user_id]];
 
         $result = $this->db->executeQuery($sql, $params);
 

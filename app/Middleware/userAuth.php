@@ -1,4 +1,6 @@
 <?php
+namespace App\Middleware;
+use App\Models\AccountModel;
 
 class userAuth {
 
@@ -6,8 +8,12 @@ class userAuth {
         $user_data = $_SESSION['user_data'];
         $email_verified = $_SESSION['user_data']['email_verified'];
         // Check if user is logged in
-        if (!isset($user_data) || !$email_verified) {
+        if (!isset($user_data)) {
             header("Location: /login");
+            exit();
+        }
+        if (!$email_verified) {
+            header("Location: /verifyEmail");
             exit();
         }
     }

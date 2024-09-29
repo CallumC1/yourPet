@@ -1,4 +1,8 @@
 <?php
+namespace App\Services;
+use App\Models\TokenModel;
+use App\Models\AccountModel;
+use DateTime;
 
 class TokenService {
 
@@ -21,7 +25,7 @@ class TokenService {
      * 
      * @return string $token
      */
-    public function generateToken($user_id) {
+    public function generateToken() {
         $token = bin2hex(random_bytes(15));
 
         // Return the generated token so it can be used in the email.
@@ -65,22 +69,22 @@ class TokenService {
         // Check if the user already has a token that is active.
         $hasToken = $this->checkToken($user_id);
 
+
         // Result could be sent back as JSON to the controller?
         if ($hasToken == "NT") {
             $saveSuccess = $this->tokenModel->insertToken($user_id, $token, $tokenMade, $tokenExpires);
-        } elseif ($hasToken == "TE") {
-            $saveSuccess = $this->tokenModel->updateToken($user_id, $token, $tokenMade, $tokenExpires);
         } else {
-            http_response_code(500);
-            return json_encode(["status" => "error", "message" => "Invalid token status"]);
+            $saveSuccess = $this->tokenModel->updateToken($user_id, $token, $tokenMade, $tokenExpires);
         }
 
         if ($saveSuccess) {
-            http_response_code(200);
+            // http_response_code(200);
             return json_encode(["status" => "success", "message" => "Token saved successfully"]);
+            // return true;
         } else {
-            http_response_code(500);
+        //     http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error saving token."]);
+            // return false;
         }
     }
 
@@ -95,31 +99,30 @@ class TokenService {
      * 
      * @param string $user_id, $providedToken
      */
-    public function verifyToken($user_id, $providedToken) {
+    public function isValidToken($user_id, $providedToken) {
         
         if (!$providedToken || !$user_id) {
-            echo "No token provided or user id is not found";
-            exit();
+            return "err_no_token_provided";
         }
         
         $verificationToken = $this->get_token($user_id);
         if (!$verificationToken) {
-            echo "Token not found";
-            exit();
+            return "err_no_token";
         }
 
+        // Check if the token has expired
+        $tokenStatus = $this->checkToken($user_id);
+        if (!$tokenStatus == "TV") {
+            return "err_token_expired";
+        }
+
+
+        // die($providedToken .  " ||| " . $verificationToken);
         if ($providedToken != $verificationToken) {
-            echo "Token does not match";
-            exit();
+            return "err_invalid_token";
         }
 
-        $userVerified = $this->accountModel->verifyUserEmail($user_id);
-        if (!$userVerified) {
-            echo "Error verifying user, please contact our support team.";
-            return false;
-        }
-
-        return true;
+        return "valid_token";
     }
 
 
@@ -130,45 +133,45 @@ class TokenService {
      * @param string $user_email
      * @param string $token
      */
-    public function sendEmailVerificationToken($user_id, $user_email, $token) {
+    // public function sendEmailVerificationToken($user_id, $user_email, $token) {
 
-        // Set the last time the email was sent.
-        // This is used to prevent spamming of emails.
-        $last_email = $_SESSION["last_verification_email"] ?? null;
+    //     // Set the last time the email was sent.
+    //     // This is used to prevent spamming of emails.
+    //     $last_email = $_SESSION["last_verification_email"] ?? null;
         
-        // Check if the last email was sent with at least 90 seconds between the next email.
-        // TODO: Move to own function and pass in the seconds as a parameter.
-        $seconds = 5;
-        if($last_email && $last_email > time() - $seconds) {
-            $timeRemaining = $seconds - (time() - $last_email);
-            return json_encode(["status" => "error", "message" => "Please wait $timeRemaining seconds before sending another email."]);
-        }
+    //     // Check if the last email was sent with at least 90 seconds between the next email.
+    //     // TODO: Move to own function and pass in the seconds as a parameter.
+    //     $seconds = 5;
+    //     if($last_email && $last_email > time() - $seconds) {
+    //         $timeRemaining = $seconds - (time() - $last_email);
+    //         return json_encode(["status" => "error", "message" => "Please wait $timeRemaining seconds before sending another email."]);
+    //     }
 
-        $_SESSION["last_verification_email"] = time();
+    //     $_SESSION["last_verification_email"] = time();
 
-        // Prepare the email template
-        $emailTemplate = file_get_contents(__DIR__ . '/../Views/emails/verifyEmail.html');
-        $emailTemplate = str_replace("{user_id}", $user_id, $emailTemplate);
-        $emailTemplate = str_replace("{token}", $token, $emailTemplate);
+    //     // Prepare the email template
+    //     $emailTemplate = file_get_contents(__DIR__ . '/../Views/emails/verifyEmail.html');
+    //     $emailTemplate = str_replace("{user_id}", $user_id, $emailTemplate);
+    //     $emailTemplate = str_replace("{token}", $token, $emailTemplate);
 
-        // Send the email to the user.
+    //     // Send the email to the user.
 
-        $resend = Resend::client($_ENV["RESEND_API_KEY"]);
-        try {
-            $resend->emails->send([
-                'from' => 'server@yourpet.callumc.net',
-                'to' => $user_email,
-                'subject' => 'YourPet - Verify Your Email Address',
-                'html' => $emailTemplate,
-            ]);
-            return json_encode(["status" => "success", "message" => "Email sent successfully"]);
+    //     $resend = Resend::client($_ENV["RESEND_API_KEY"]);
+    //     try {
+    //         $resend->emails->send([
+    //             'from' => 'server@yourpet.callumc.net',
+    //             'to' => $user_email,
+    //             'subject' => 'YourPet - Verify Your Email Address',
+    //             'html' => $emailTemplate,
+    //         ]);
+    //         return json_encode(["status" => "success", "message" => "Email sent successfully"]);
 
-        } catch (Exception $e) {
-            $error = $e->getMessage();
-            echo $error;
-            return json_encode(["status" => "error", "message" => "Error sending email"]);
-        }
-    }
+    //     } catch (Exception $e) {
+    //         $error = $e->getMessage();
+    //         echo $error;
+    //         return json_encode(["status" => "error", "message" => "Error sending email"]);
+    //     }
+    // }
 
 
 

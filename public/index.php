@@ -1,23 +1,18 @@
 <?php
-// Start the session
-session_start();
-
 // Entry point for the application and all its requests
+// This file is the first file that is loaded when the user visits the website.
+// require_once __DIR__ . '../../app/includes/sessions.php';
+
+// Use Composer's autoloader to autoload classes
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use App\Routes\Router;
+
+// Require session manager.
+// Ideally, this could be a class that is instantiated and used to manage sessions.
 
 // Helpers
-
-/* Function to echo a string safely
-Should be moved to a helper file 
-*/
-function out($string) {
-    echo(htmlspecialchars($string));
-}
-
-
-
-// Routing
-
-require_once __DIR__ . '../../router.php';
+require_once __DIR__ . '../../app/includes/helpers.php';
 
 $router = new Router();
 
@@ -33,19 +28,21 @@ $router->addRoute("GET", "", "HomeController@index");
 
 $router->addRoute("GET", "/about", "AboutController@index");
 
-$router->addRoute("GET", "/form", "FormController@index");
-$router->addRoute("POST", "/formSubmit", "FormController@submit");
+
+// DEBUG ONLY
+$router->addRoute("GET", "/debug", "DebugController@index");
+
 
 // Registration Routes
 $router->addRoute("GET", "/register", "RegisterController@index");
 $router->addMiddleware("/register", "checkLoggedIn");
-$router->addRoute("POST", "/registerSubmit", "AccountController@submitRegistration");
+$router->addRoute("POST", "/registerUser", "RegisterController@processRegistration");
 
 
 // Login Routes
 $router->addRoute("GET", "/login", "LoginController@index");
 $router->addMiddleware("/login", "checkLoggedIn");
-$router->addRoute("POST", "/loginSubmit", "AccountController@submitLogin");
+$router->addRoute("POST", "/loginSubmit", "LoginController@processLogin");
 $router->addRoute("GET", "/logout", "AccountController@logout");
 
 
@@ -67,10 +64,14 @@ $router->addRoute("GET", "/admin/dashboard", "AdminDashboardController@index");
 $router->addMiddleware("/admin/dashboard", "userAuth@adminHandle");
 
 // Testing routes
-$router->addRoute("GET", "/auth/email", "AccountController@generateEmailVerificationToken");
-$router->addRoute("GET", "/auth/email/{userid}/{token}", "AccountController@verifyEmailToken");
+$router->addRoute("GET", "/auth/email", "AccountController@generateEmailVerificationToken"); //Should be POST?
+$router->addRoute("GET", "/auth/email/resend", "VerifyEmailController@resendEmail"); //Should be POST.
+
+$router->addRoute("GET", "/auth/email/{userid}/{token}", "VerifyEmailController@verify");
 $router->addRoute("GET", "/verifyEmail", "VerifyEmailController@index");
-$router->addRoute("GET", "/auth/email/resend", "AccountController@resendEmailToken");
+$router->addRoute("GET", "/verifiedEmail", "VerifyEmailController@verified");
+
+
 
 
 // Handles the request

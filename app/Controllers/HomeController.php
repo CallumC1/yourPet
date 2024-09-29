@@ -1,10 +1,17 @@
 <?php
-require_once __DIR__ . '/../Models/ProductsModel.php';
+
+namespace App\Controllers;
+
+
+use App\Models\ProductsModel;
+
 
 
 class HomeController {
     
     public function index() {
+
+      
 
         $productsModel = new ProductsModel();
         $products = $productsModel->getProductsData();

@@ -1,5 +1,11 @@
 {
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
     "require": {
-        "resend/resend-php": "dev-main"
+        "resend/resend-php": "dev-main",
+        "ramsey/uuid": "^4.7"
     }
 }
