@@ -1,7 +1,7 @@
 <?php
 // Entry point for the application and all its requests
 // This file is the first file that is loaded when the user visits the website.
-// require_once __DIR__ . '../../app/includes/sessions.php';
+// require_once __DIR__ . '../../App/includes/sessions.php';
 
 // Use Composer's autoloader to autoload classes
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -12,7 +12,7 @@ use App\Routes\Router;
 // Ideally, this could be a class that is instantiated and used to manage sessions.
 
 // Helpers
-require_once __DIR__ . '../../app/includes/helpers.php';
+require_once __DIR__ . '../../App/includes/helpers.php';
 
 $router = new Router();
 
