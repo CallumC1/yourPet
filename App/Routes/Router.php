@@ -3,7 +3,7 @@
 namespace App\Routes;
 use App\Services\SessionService;
 
-class router {
+class Router {
 
     protected $routes = [];
     protected $middleware = [];
