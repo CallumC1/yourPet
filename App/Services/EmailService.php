@@ -17,6 +17,8 @@ class EmailService {
         $emailTemplate = file_get_contents(__DIR__ . '/../Views/emails/verifyEmail.html');
         $emailTemplate = str_replace("{user_id}", $user_id, $emailTemplate);
         $emailTemplate = str_replace("{token}", $token, $emailTemplate);
+        $emailTemplate = str_replace("{app_url}", $_ENV["APP_URL"], $emailTemplate);
+
 
     
 
