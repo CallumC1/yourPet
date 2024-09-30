@@ -14,6 +14,7 @@ services:
     depends_on:
       - yourpet-db
     environment:
+      - APP_URL=${YP_APP_URL}
       - MYSQL_HOST=yourpet-db
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
